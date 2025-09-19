@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Version>0.0.1</Version>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageOutputPath>C:\Custom Offline Packages</PackageOutputPath>
+        <Company>David Dvali</Company>
+        <Authors>David Dvali</Authors>
+        <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql2</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql2</RepositoryUrl>
+        <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
+        <Description>DSL for Working with Postgre SQL using LINQ like syntax (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+        <PackageReleaseNotes>Initial Version</PackageReleaseNotes>
+        <PackageLicenseFile>license.txt</PackageLicenseFile>
+        <AssemblyVersion>0.0.1</AssemblyVersion>
+        <FileVersion>0.0.1</FileVersion>
+        <RootNamespace>DvlSql.PostgresSql</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+        <PackageReference Include="Npgsql" Version="9.0.3"/>
+        <PackageReference Include="SystemNET.Exts" Version="3.3.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DvlSql.Extensions\DvlSql.Extensions.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="license.txt">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      <None Update="Readme.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
+</Project>

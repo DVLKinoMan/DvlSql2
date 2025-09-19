@@ -1,0 +1,234 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.PostgresSql\\DvlSql.PostgresSql.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj": {
+      "version": "4.1.20",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj",
+        "projectName": "DvlSql.Extensions",
+        "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj",
+        "packagesPath": "C:\\Users\\Davit.Dvali\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.Extensions\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Davit.Dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Custom Offline Packages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/SpaceBank/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql\\DvlSql.csproj": {
+                "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql\\DvlSql.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\Davit.Dvali\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.PostgresSql\\DvlSql.PostgresSql.csproj": {
+      "version": "0.0.1",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.PostgresSql\\DvlSql.PostgresSql.csproj",
+        "projectName": "DvlSql.PostgresSql",
+        "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.PostgresSql\\DvlSql.PostgresSql.csproj",
+        "packagesPath": "C:\\Users\\Davit.Dvali\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.PostgresSql\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Davit.Dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Custom Offline Packages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/SpaceBank/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj": {
+                "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "SystemNET.Exts": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\Davit.Dvali\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql\\DvlSql.csproj": {
+      "version": "4.1.17",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql\\DvlSql.csproj",
+        "projectName": "DvlSql",
+        "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql\\DvlSql.csproj",
+        "packagesPath": "C:\\Users\\Davit.Dvali\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Davit.Dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Custom Offline Packages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/SpaceBank/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "SystemNET.Exts": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\Davit.Dvali\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

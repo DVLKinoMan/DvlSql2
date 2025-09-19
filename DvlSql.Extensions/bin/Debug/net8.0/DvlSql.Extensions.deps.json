@@ -1,0 +1,57 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "DvlSql.Extensions/4.0.3": {
+        "dependencies": {
+          "DvlSql": "4.0.3"
+        },
+        "runtime": {
+          "DvlSql.Extensions.dll": {}
+        }
+      },
+      "SystemNET.Exts/3.3.0": {
+        "runtime": {
+          "lib/net8.0/System.Exts.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.0.0"
+          }
+        }
+      },
+      "DvlSql/4.0.3": {
+        "dependencies": {
+          "SystemNET.Exts": "3.3.0"
+        },
+        "runtime": {
+          "DvlSql.dll": {
+            "assemblyVersion": "4.0.3",
+            "fileVersion": "4.0.3"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DvlSql.Extensions/4.0.3": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SystemNET.Exts/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QczpqNSRcV9bdZYtur14iVWNC0YmkWHYTP3EOQPhJtDrsdxaq+BFk26IllNOcD5f+PRLX6npcH6txHeFGcNglg==",
+      "path": "systemnet.exts/3.3.0",
+      "hashPath": "systemnet.exts.3.3.0.nupkg.sha512"
+    },
+    "DvlSql/4.0.3": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

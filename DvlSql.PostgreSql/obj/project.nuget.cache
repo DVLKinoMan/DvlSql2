@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "/ce2nHphT5w=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.PostgreSql\\DvlSql.PostgreSql.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\npgsql\\9.0.3\\npgsql.9.0.3.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\systemnet.exts\\3.3.1\\systemnet.exts.3.3.1.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\dvlsql\\4.1.17\\dvlsql.4.1.17.nupkg.sha512",
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\dvlsql.extensions\\4.1.20\\dvlsql.extensions.4.1.20.nupkg.sha512"
+  ],
+  "logs": []
+}

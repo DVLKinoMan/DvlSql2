@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageOutputPath>C:\Custom Offline Packages</PackageOutputPath>
+        <Version>4.1.20</Version>
+        <Authors>David Dvali</Authors>
+        <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql.Extensions</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql.Extensions</PackageProjectUrl>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+        <PackageReleaseNotes>Where expression helper bug</PackageReleaseNotes>
+        <PackageLicenseFile>license.txt</PackageLicenseFile>
+        <AssemblyVersion>4.1.20</AssemblyVersion>
+        <FileVersion>4.1.20</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="license.txt">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Update="Readme.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+<!--      <PackageReference Include="DvlSql" Version="4.1.0" />-->
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DvlSql\DvlSql.csproj" />
+    </ItemGroup>
+
+</Project>

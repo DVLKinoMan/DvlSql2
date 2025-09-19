@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql", "DvlSql\DvlSql.csproj", "{1BEDAE96-6656-4A46-B86D-B52C78A170A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.SqlServer", "DvlSql.SqlServer\DvlSql.SqlServer.csproj", "{B514BC48-D542-4CDE-A151-0706823875FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.Extensions", "DvlSql.Extensions\DvlSql.Extensions.csproj", "{AF193A3A-0769-4E84-ABD4-AD62F423B2D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.SqlServer.Tests", "DvlSql.SqlServer.Tests\DvlSql.SqlServer.Tests.csproj", "{CD3E86D9-198C-4A7D-A184-C6089B227920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.PostgreSql", "DvlSql.PostgreSql\DvlSql.PostgreSql.csproj", "{65AC0952-74CC-4603-AD2D-2D5BCE27E66A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.PostgreSql.Console", "DvlSql.PostgreSql.Console\DvlSql.PostgreSql.Console.csproj", "{97932F66-F48E-4403-9734-8496A95FB797}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BEDAE96-6656-4A46-B86D-B52C78A170A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEDAE96-6656-4A46-B86D-B52C78A170A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEDAE96-6656-4A46-B86D-B52C78A170A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEDAE96-6656-4A46-B86D-B52C78A170A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B514BC48-D542-4CDE-A151-0706823875FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B514BC48-D542-4CDE-A151-0706823875FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B514BC48-D542-4CDE-A151-0706823875FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B514BC48-D542-4CDE-A151-0706823875FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF193A3A-0769-4E84-ABD4-AD62F423B2D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF193A3A-0769-4E84-ABD4-AD62F423B2D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF193A3A-0769-4E84-ABD4-AD62F423B2D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF193A3A-0769-4E84-ABD4-AD62F423B2D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3E86D9-198C-4A7D-A184-C6089B227920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3E86D9-198C-4A7D-A184-C6089B227920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3E86D9-198C-4A7D-A184-C6089B227920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3E86D9-198C-4A7D-A184-C6089B227920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65AC0952-74CC-4603-AD2D-2D5BCE27E66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AC0952-74CC-4603-AD2D-2D5BCE27E66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65AC0952-74CC-4603-AD2D-2D5BCE27E66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65AC0952-74CC-4603-AD2D-2D5BCE27E66A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97932F66-F48E-4403-9734-8496A95FB797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97932F66-F48E-4403-9734-8496A95FB797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97932F66-F48E-4403-9734-8496A95FB797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97932F66-F48E-4403-9734-8496A95FB797}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Version>4.1.25</Version>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageOutputPath>C:\Custom Offline Packages</PackageOutputPath>
+        <Company>David Dvali</Company>
+        <Authors>David Dvali</Authors>
+        <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql2</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql2</RepositoryUrl>
+        <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
+        <Description>DSL for Working with MS SQL using LINQ like syntax (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+        <PackageReleaseNotes>DvlSql.Extensions 4.1.6 version upgrade</PackageReleaseNotes>
+        <PackageLicenseFile>license.txt</PackageLicenseFile>
+        <AssemblyVersion>4.1.25</AssemblyVersion>
+        <FileVersion>4.1.25</FileVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <!--        <PackageReference Include="DvlSql.Extensions" Version="4.0.3" />-->
+        <!--        <PackageReference Include="DvlSql.Extensions" Version="4.1.0" />-->
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2"/>
+        <PackageReference Include="SystemNET.Exts" Version="3.3.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Readme.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Update="license.txt">
+          <Pack>True</Pack>
+          <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DvlSql.Extensions\DvlSql.Extensions.csproj"/>
+    </ItemGroup>
+</Project>
