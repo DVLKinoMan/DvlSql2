@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DvlSql.SqlServer.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("3.2.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.2.1+a5ddb58c904c5e8f66a737fd7d85000dfaae30b4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.2.1+48e7033321267119b3065a235d9313e1bcbab136")]
 [assembly: System.Reflection.AssemblyProductAttribute("DvlSql.SqlServer.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DvlSql.SqlServer.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("3.2.1.0")]

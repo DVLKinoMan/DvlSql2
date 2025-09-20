@@ -11,3 +11,16 @@ C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.dll
 C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\obj\Release\net8.0\refint\DvlSql.dll
 C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.pdb
 C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\obj\Release\net8.0\ref\DvlSql.dll
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\bin\Release\net8.0\DvlSql.deps.json
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\bin\Release\net8.0\DvlSql.dll
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\bin\Release\net8.0\DvlSql.pdb
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.csproj.AssemblyReference.cache
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.AssemblyInfoInputs.cache
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.AssemblyInfo.cs
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.csproj.CoreCompileInputs.cache
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.sourcelink.json
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.dll
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\refint\DvlSql.dll
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\DvlSql.pdb
+C:\Users\dvali\source\repos\DvlSql2\DvlSql\obj\Release\net8.0\ref\DvlSql.dll

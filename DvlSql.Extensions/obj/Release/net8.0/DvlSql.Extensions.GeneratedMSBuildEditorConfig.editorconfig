@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DvlSql.Extensions
-build_property.ProjectDir = C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql.Extensions\
+build_property.ProjectDir = C:\Users\dvali\source\repos\DvlSql2\DvlSql.Extensions\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

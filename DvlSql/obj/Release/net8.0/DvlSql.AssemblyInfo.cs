@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("DSL abstraction for Working with SQL (Select, Update, Insert, Delete, Executing S" +
     "tored procedures, using Transactions)")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("4.1.17")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.17+a5ddb58c904c5e8f66a737fd7d85000dfaae30b4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.17+48e7033321267119b3065a235d9313e1bcbab136")]
 [assembly: System.Reflection.AssemblyProductAttribute("DvlSql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DvlSql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("4.1.17")]

@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>4.1.25</Version>
+        <Version>4.1.26</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageOutputPath>C:\Custom Offline Packages</PackageOutputPath>
         <Company>David Dvali</Company>
@@ -14,10 +14,10 @@
         <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
         <Description>DSL for Working with MS SQL using LINQ like syntax (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
-        <PackageReleaseNotes>DvlSql.Extensions 4.1.6 version upgrade</PackageReleaseNotes>
+        <PackageReleaseNotes></PackageReleaseNotes>
         <PackageLicenseFile>license.txt</PackageLicenseFile>
-        <AssemblyVersion>4.1.25</AssemblyVersion>
-        <FileVersion>4.1.25</FileVersion>
+        <AssemblyVersion>4.1.26</AssemblyVersion>
+        <FileVersion>4.1.26</FileVersion>
     </PropertyGroup>
     <ItemGroup>
         <!--        <PackageReference Include="DvlSql.Extensions" Version="4.0.3" />-->

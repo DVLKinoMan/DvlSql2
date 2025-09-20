@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("DSL for Working with Postgre SQL using LINQ like syntax (Select, Update, Insert, " +
     "Delete, Executing Stored procedures, using Transactions)")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.1")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+a5ddb58c904c5e8f66a737fd7d85000dfaae30b4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+48e7033321267119b3065a235d9313e1bcbab136")]
 [assembly: System.Reflection.AssemblyProductAttribute("DvlSql.PostgreSql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DvlSql.PostgreSql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.1")]
