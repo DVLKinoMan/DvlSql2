@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("David Dvali")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("4.1.20")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.20+48e7033321267119b3065a235d9313e1bcbab136")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.20+d7b4ac319ff4439c14d65c73cd4ad3a9bc59842e")]
 [assembly: System.Reflection.AssemblyProductAttribute("DvlSql.Extensions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DvlSql.Extensions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("4.1.20")]

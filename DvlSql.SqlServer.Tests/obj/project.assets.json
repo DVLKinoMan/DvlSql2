@@ -1041,7 +1041,7 @@
           "bin/placeholder/DvlSql.Extensions.dll": {}
         }
       },
-      "DvlSql.SqlServer/4.1.25": {
+      "DvlSql.SqlServer/4.1.26": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -2689,7 +2689,7 @@
       "path": "../DvlSql.Extensions/DvlSql.Extensions.csproj",
       "msbuildProject": "../DvlSql.Extensions/DvlSql.Extensions.csproj"
     },
-    "DvlSql.SqlServer/4.1.25": {
+    "DvlSql.SqlServer/4.1.26": {
       "type": "project",
       "path": "../DvlSql.SqlServer/DvlSql.SqlServer.csproj",
       "msbuildProject": "../DvlSql.SqlServer/DvlSql.SqlServer.csproj"
@@ -2697,7 +2697,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "DvlSql.SqlServer >= 4.1.25",
+      "DvlSql.SqlServer >= 4.1.26",
       "Microsoft.NET.Test.Sdk >= 17.9.0",
       "Moq >= 4.20.70",
       "NUnit >= 4.1.0",
