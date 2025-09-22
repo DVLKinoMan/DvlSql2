@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("DSL for Working with MS SQL using LINQ like syntax (Select, Update, Insert, Delet" +
     "e, Executing Stored procedures, using Transactions)")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("4.1.26")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.26+098e2114e84a9eab9d286bb61ab203849bdd8b74")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.26+12e2ba945a911a32ae2ebd016fa0a4942575084c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DvlSql.SqlServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DvlSql.SqlServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("4.1.26")]
