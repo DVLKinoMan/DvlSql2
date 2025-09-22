@@ -2667,7 +2667,7 @@
       ]
     },
     "SystemNET.Exts/3.3.1": {
-      "sha512": "g6Bwrug+gH09hMntQJQHmFW9tMNWrfSuECZrFufSm+LebWR6DdUBe8lie3d1IZ4FwjhPjFN/9dYiKOf6cMbB1w==",
+      "sha512": "EuP1dXswRBOv/Bkue3gGvnp2ic8QKgI8eb9BoxVPAc5krkP4zGA78WOpwtR5onfEfPdMJJS2cmw6DU53NHqqDg==",
       "type": "package",
       "path": "systemnet.exts/3.3.1",
       "files": [
@@ -2705,19 +2705,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dvali\\.nuget\\packages\\": {}
+    "C:\\Users\\Davit.Dvali\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "3.2.1",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer.Tests\\DvlSql.SqlServer.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.SqlServer.Tests\\DvlSql.SqlServer.Tests.csproj",
       "projectName": "DvlSql.SqlServer.Tests",
-      "projectPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer.Tests\\DvlSql.SqlServer.Tests.csproj",
-      "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer.Tests\\obj\\",
+      "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.SqlServer.Tests\\DvlSql.SqlServer.Tests.csproj",
+      "packagesPath": "C:\\Users\\Davit.Dvali\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.SqlServer.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Davit.Dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2726,15 +2731,15 @@
       "sources": {
         "C:\\Custom Offline Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.pkg.github.com/SpaceBank/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer\\DvlSql.SqlServer.csproj": {
-              "projectPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer\\DvlSql.SqlServer.csproj"
+            "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.SqlServer\\DvlSql.SqlServer.csproj": {
+              "projectPath": "C:\\Users\\Davit.Dvali\\RiderProjects\\DvlSql2\\DvlSql.SqlServer\\DvlSql.SqlServer.csproj"
             }
           }
         }
@@ -2787,7 +2792,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\Davit.Dvali\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
