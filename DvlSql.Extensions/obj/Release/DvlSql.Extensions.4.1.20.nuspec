@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/DVLKinoMan/DvlSql.Extensions</projectUrl>
     <description>Package Description</description>
     <releaseNotes>Where expression helper bug</releaseNotes>
-    <repository type="git" url="https://github.com/DVLKinoMan/DvlSql.Extensions" commit="d7b4ac319ff4439c14d65c73cd4ad3a9bc59842e" />
+    <repository type="git" url="https://github.com/DVLKinoMan/DvlSql.Extensions" commit="098e2114e84a9eab9d286bb61ab203849bdd8b74" />
     <dependencies>
       <group targetFramework="net8.0">
         <dependency id="DvlSql" version="4.1.17" exclude="Build,Analyzers" />
@@ -18,8 +18,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\dvali\source\repos\DvlSql2\DvlSql.Extensions\bin\Release\net8.0\DvlSql.Extensions.dll" target="lib\net8.0\DvlSql.Extensions.dll" />
-    <file src="C:\Users\dvali\source\repos\DvlSql2\DvlSql.Extensions\license.txt" target="\license.txt" />
-    <file src="C:\Users\dvali\source\repos\DvlSql2\DvlSql.Extensions\Readme.md" target="\Readme.md" />
+    <file src="C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql.Extensions\bin\Release\net8.0\DvlSql.Extensions.dll" target="lib\net8.0\DvlSql.Extensions.dll" />
+    <file src="C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql.Extensions\license.txt" target="\license.txt" />
+    <file src="C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql.Extensions\Readme.md" target="\Readme.md" />
   </files>
 </package>

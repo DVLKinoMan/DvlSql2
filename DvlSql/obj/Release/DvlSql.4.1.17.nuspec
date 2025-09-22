@@ -11,7 +11,7 @@
     <description>DSL abstraction for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</description>
     <releaseNotes>Reverse OrderBy</releaseNotes>
     <tags>dsl, sql, Linq</tags>
-    <repository type="git" url="https://github.com/DVLKinoMan/DvlSql2" commit="d7b4ac319ff4439c14d65c73cd4ad3a9bc59842e" />
+    <repository type="git" url="https://github.com/DVLKinoMan/DvlSql2" commit="098e2114e84a9eab9d286bb61ab203849bdd8b74" />
     <dependencies>
       <group targetFramework="net8.0">
         <dependency id="SystemNET.Exts" version="3.3.1" exclude="Build,Analyzers" />
@@ -19,8 +19,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\dvali\source\repos\DvlSql2\DvlSql\bin\Release\net8.0\DvlSql.dll" target="lib\net8.0\DvlSql.dll" />
-    <file src="C:\Users\dvali\source\repos\DvlSql2\DvlSql\license.txt" target="\license.txt" />
-    <file src="C:\Users\dvali\source\repos\DvlSql2\DvlSql\Readme.md" target="\Readme.md" />
+    <file src="C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\bin\Release\net8.0\DvlSql.dll" target="lib\net8.0\DvlSql.dll" />
+    <file src="C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\license.txt" target="\license.txt" />
+    <file src="C:\Users\Davit.Dvali\RiderProjects\DvlSql2\DvlSql\Readme.md" target="\Readme.md" />
   </files>
 </package>
