@@ -20,7 +20,7 @@ internal class DvlSqlCommand(SqlCommand command) : IDvlSqlCommand //: IDvlSqlCom
     {
         if (timeout != null)
             WithTimeout(_sqlCommand, (int) timeout);
-
+        
         return await _sqlCommand.ExecuteNonQueryAsync(cancellationToken);
     }
 
