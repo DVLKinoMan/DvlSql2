@@ -9,7 +9,8 @@ namespace DvlSql.SqlServer.Tests.Transaction;
 public class Transactions
 {
     private readonly DvlSqlMs _sql =
-        new (@"Data Source=LAPTOP-DEUOP46M\LOCALHOST; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+        new(
+            new(){ ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1"});
 
     //todo normal test
     //[Test]

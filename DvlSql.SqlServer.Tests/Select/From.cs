@@ -8,8 +8,9 @@ namespace DvlSql.SqlServer.Tests.Select;
 public class From
 {
     private readonly DvlSqlMs _sql =
-        new (
-            StaticConnectionStrings.ConnectionStringForTest);
+        new(
+            new(){ ConnectionString = 
+            StaticConnectionStrings.ConnectionStringForTest});
 
     [Test]
     [TestCase("dbo.Words")]

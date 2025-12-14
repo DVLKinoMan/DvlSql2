@@ -79,7 +79,7 @@ public class ToList
         var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
         var moq = CreateConnectionMock<List<T>>(commandMoq);
 
-        var list = new DvlSqlMs(moq.Object)
+        var list = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(_tableName)
             .Select()
             .ToListAsync(func)
@@ -105,7 +105,7 @@ public class ToList
         var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
         var moq = CreateConnectionMock<List<T>>(commandMoq);
 
-        var list = new DvlSqlMs(moq.Object)
+        var list = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(_tableName)
             .Select()
             .ToListAsync<T>()

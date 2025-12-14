@@ -7,8 +7,9 @@ namespace DvlSql.SqlServer.Tests.Select;
 public class Union
 {
     private readonly DvlSqlMs _sql =
-        new (
-            StaticConnectionStrings.ConnectionStringForTest);
+        new(
+            new(){ ConnectionString = 
+                StaticConnectionStrings.ConnectionStringForTest});
 
     [Test]
     [TestCase("dbo.Words", "dbo.Sentences")]

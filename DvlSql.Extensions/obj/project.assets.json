@@ -11,7 +11,7 @@
           "lib/net8.0/System.Exts.dll": {}
         }
       },
-      "DvlSql/4.1.17": {
+      "DvlSql/4.1.18": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -40,7 +40,7 @@
         "systemnet.exts.nuspec"
       ]
     },
-    "DvlSql/4.1.17": {
+    "DvlSql/4.1.18": {
       "type": "project",
       "path": "../DvlSql/DvlSql.csproj",
       "msbuildProject": "../DvlSql/DvlSql.csproj"
@@ -48,14 +48,15 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "DvlSql >= 4.1.17"
+      "DvlSql >= 4.1.18"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dvali\\.nuget\\packages\\": {}
+    "C:\\Users\\dvali\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "4.1.20",
+    "version": "4.1.21",
     "restore": {
       "projectUniqueName": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj",
       "projectName": "DvlSql.Extensions",
@@ -63,8 +64,12 @@
       "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.Extensions\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -73,7 +78,6 @@
       "sources": {
         "C:\\Custom Offline Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -116,7 +120,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

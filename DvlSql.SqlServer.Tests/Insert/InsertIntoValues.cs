@@ -8,7 +8,8 @@ namespace DvlSql.SqlServer.Tests.Insert;
 public class InsertIntoValues
 {
     private readonly DvlSqlMs _sql =
-        new (@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+        new(
+            new(){ ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1"});
 
     //private static IEnumerable<string> Columns(params string[] cols) => cols;
 

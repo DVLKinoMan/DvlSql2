@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "DvlSql/4.1.17": {
+      "DvlSql/4.1.18": {
         "dependencies": {
           "SystemNET.Exts": "3.3.1"
         },
@@ -25,7 +25,7 @@
     }
   },
   "libraries": {
-    "DvlSql/4.1.17": {
+    "DvlSql/4.1.18": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

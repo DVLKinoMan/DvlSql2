@@ -1,4 +1,5 @@
 ﻿using DvlSql.Expressions;
+using Microsoft.Extensions.Logging;
 using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer;
@@ -6,14 +7,24 @@ namespace DvlSql.SqlServer;
 public partial class DvlSqlMs : IDvlSql
 {
     private IDvlSqlConnection? _dvlSqlConnection;
-    private readonly string? _connectionString;
+    private readonly DvlSqlOptions _options;
+    private readonly ILogger? _logger;
+    
+    public DvlSqlMs(DvlSqlOptions options, ILogger? logger = null)
+    {
+        _options = options;
+        _logger = logger;
+    }
 
-    public DvlSqlMs(string connectionString) => _connectionString = connectionString;
+    public DvlSqlMs(IDvlSqlConnection connection, DvlSqlOptions options, ILogger? logger = null)
+    {
+        _dvlSqlConnection = connection;
+        _options = options;
+        _logger = logger;
+    }
 
-    public DvlSqlMs(IDvlSqlConnection connection) => _dvlSqlConnection = connection;
-
-    private IDvlSqlConnection GetConnection() => _dvlSqlConnection ?? new DvlSqlConnection(_connectionString ?? 
-        throw new NullReferenceException($"{nameof(_connectionString)} can not be null"));
+    private IDvlSqlConnection GetConnection() => 
+        _dvlSqlConnection ?? new DvlSqlConnection(_options, _logger);
     
     public ISelector From(string tableName, bool withNoLock = false)
     {

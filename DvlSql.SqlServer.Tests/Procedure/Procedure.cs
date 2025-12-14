@@ -37,7 +37,7 @@ public class Procedure
         var commandMoq = CreateSqlCommandMock<TResult>(readerMoq);
         var moq = CreateConnectionMock<TResult>(commandMoq, CommandType.StoredProcedure);
 
-        var actual = new DvlSqlMs(moq.Object).Procedure("someProc")
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions()).Procedure("someProc")
             .ExecuteAsync(func(readerFunc))
             .Result;
 
@@ -56,7 +56,7 @@ public class Procedure
         var moq = CreateConnectionMock<TResult>(commandMoq, CommandType.StoredProcedure);
 
         var outputParam = OutputParam("count", IntType());
-        var actual = new DvlSqlMs(moq.Object).Procedure("SomeProc2",
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions()).Procedure("SomeProc2",
                 Param("amount", 42),
                 outputParam)
             .ExecuteAsync(func(readerFunc)).Result;
@@ -74,7 +74,7 @@ public class Procedure
         var commandMoq = CreateSqlCommandMock(expected);
         var moq = CreateConnectionMock<int>(commandMoq, CommandType.StoredProcedure);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .Procedure("SomeProc2")
             .ExecuteAsync().Result;
 

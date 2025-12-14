@@ -10,7 +10,8 @@ public class Where
 {
     private readonly DvlSqlMs _sql =
         new(
-            StaticConnectionStrings.ConnectionStringForTest);
+            new(){ ConnectionString = 
+                StaticConnectionStrings.ConnectionStringForTest});
 
     private const string TableName = "dbo.Words";
 

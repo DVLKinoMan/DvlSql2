@@ -8,8 +8,9 @@ public class Select
 {
         
     private readonly DvlSqlMs _sql =
-        new (
-            StaticConnectionStrings.ConnectionStringForTest);
+        new(
+            new(){ ConnectionString = 
+                StaticConnectionStrings.ConnectionStringForTest});
 
     private const string TableName = "dbo.Words";
 

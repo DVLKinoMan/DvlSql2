@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "DvlSql.PostgreSql/0.0.1": {
+      "DvlSql.PostgreSql/0.0.2": {
         "dependencies": {
           "DvlSql.Extensions": "4.1.20",
           "Microsoft.Extensions.Options": "8.0.2",
@@ -80,10 +80,7 @@
           "SystemNET.Exts": "3.3.1"
         },
         "runtime": {
-          "DvlSql.dll": {
-            "assemblyVersion": "4.1.17",
-            "fileVersion": "4.1.17"
-          }
+          "DvlSql.dll": {}
         }
       },
       "DvlSql.Extensions/4.1.20": {
@@ -91,16 +88,13 @@
           "DvlSql": "4.1.17"
         },
         "runtime": {
-          "DvlSql.Extensions.dll": {
-            "assemblyVersion": "4.1.20",
-            "fileVersion": "4.1.20"
-          }
+          "DvlSql.Extensions.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "DvlSql.PostgreSql/0.0.1": {
+    "DvlSql.PostgreSql/0.0.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

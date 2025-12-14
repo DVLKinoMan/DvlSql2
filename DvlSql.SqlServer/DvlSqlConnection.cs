@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 
 namespace DvlSql.SqlServer;
 
@@ -8,14 +9,26 @@ internal class DvlSqlConnection : IDvlSqlConnection
 {
     // private readonly List<SqlCommand> _commands = new List<SqlCommand>();
     private readonly SqlConnection _connection;
+    private readonly DvlSqlOptions _options;
     private DbTransaction? _transaction;
     private readonly IDvlSqlMsCommandFactory _commandFactory;
+    private readonly ILogger? _logger;
 
-    public DvlSqlConnection(string connectionString) =>
-        (_connection, _commandFactory) = (new(connectionString), new DvlSqlMsCommandFactory());
-    
-    public DvlSqlConnection(string connectionString, IDvlSqlMsCommandFactory commandFactory) =>
-        (_connection, _commandFactory) = (new(connectionString), commandFactory);
+    public DvlSqlConnection(DvlSqlOptions options, ILogger? logger)
+    {
+        _connection = new(options.ConnectionString);
+        _commandFactory = new DvlSqlMsCommandFactory();
+        _options = options;
+        _logger = logger;
+    }
+
+    public DvlSqlConnection(DvlSqlOptions options, IDvlSqlMsCommandFactory commandFactory, ILogger? logger)
+    {
+        _connection = new(options.ConnectionString);
+        _commandFactory = commandFactory;
+        _options = options;
+        _logger = logger;
+    }
 
     public void Dispose()
     {
@@ -36,6 +49,7 @@ internal class DvlSqlConnection : IDvlSqlConnection
             parameters?.ToSqlParameters().ToArray());
         try
         {
+            Log(command);
             return await func(command);
         }
         finally
@@ -68,7 +82,7 @@ internal class DvlSqlConnection : IDvlSqlConnection
     }
 
     public IDvlSqlConnection GetClone() =>
-        new DvlSqlConnection(_connection.ConnectionString, _commandFactory);
+        new DvlSqlConnection(_options, _commandFactory, _logger);
 
     public async ValueTask DisposeAsync()
     {
@@ -78,5 +92,10 @@ internal class DvlSqlConnection : IDvlSqlConnection
         _transaction = null;
         if (_connection.State != ConnectionState.Closed)
             await _connection.CloseAsync();
+    }
+    
+    private void Log(IDvlSqlCommand command)
+    {
+        _logger?.LogDebug("Executing: {SQL}", command.CommandText);
     }
 }

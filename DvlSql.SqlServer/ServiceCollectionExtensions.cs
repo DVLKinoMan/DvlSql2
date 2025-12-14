@@ -1,5 +1,6 @@
 ﻿using DvlSql;
 using DvlSql.SqlServer;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable once CheckNamespace
@@ -10,7 +11,13 @@ public static class ServiceCollectionExtensions
     // ReSharper disable once InconsistentNaming
     public static IServiceCollection AddDvlSqlMS(this IServiceCollection services, DvlSqlOptions options)
     {
-        services.AddScoped<IDvlSql>(_ => new DvlSqlMs(options.ConnectionString));
+        services.AddScoped<IDvlSql>(provider =>
+        {
+            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+            var logger = loggerFactory.CreateLogger("DvlSqlMs");
+            
+            return new DvlSqlMs(options, logger);
+        });
         return services;
     }
 
@@ -22,8 +29,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDvlSql>(provider =>
         {
             var options = provider.GetRequiredService<IOptions<DvlSqlOptions>>().Value;
-
-            return new DvlSqlMs(options.ConnectionString);
+            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+            var logger = loggerFactory.CreateLogger("DvlSqlMs");
+            
+            return new DvlSqlMs(options, logger);
         });
         return services;
     }

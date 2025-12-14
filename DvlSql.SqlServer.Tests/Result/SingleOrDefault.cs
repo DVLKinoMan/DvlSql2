@@ -92,7 +92,7 @@ public class SingleOrDefault
         var commandMoq = CreateSqlCommandMock<T>(readerMoq);
         var moq = CreateConnectionMock<T>(commandMoq);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .SingleOrDefaultAsync<T>()
@@ -114,7 +114,7 @@ public class SingleOrDefault
         var commandMoq = CreateSqlCommandMock<T>(readerMoq);
         var moq = CreateConnectionMock<T>(commandMoq);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .SingleOrDefaultAsync(func)

@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/DVLKinoMan/DvlSql.Extensions</projectUrl>
     <description>Package Description</description>
     <releaseNotes>Where expression helper bug</releaseNotes>
-    <repository type="git" url="https://github.com/DVLKinoMan/DvlSql.Extensions" commit="d7b4ac319ff4439c14d65c73cd4ad3a9bc59842e" />
+    <repository type="git" url="https://github.com/DVLKinoMan/DvlSql.Extensions" commit="a8db68714b2f405e62606bc91c58cf4614f1871d" />
     <dependencies>
       <group targetFramework="net8.0">
         <dependency id="DvlSql" version="4.1.17" exclude="Build,Analyzers" />

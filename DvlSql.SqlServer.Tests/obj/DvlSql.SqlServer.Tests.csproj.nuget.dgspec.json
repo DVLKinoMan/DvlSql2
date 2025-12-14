@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj": {
-      "version": "4.1.20",
+      "version": "4.1.21",
       "restore": {
         "projectUniqueName": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.Extensions\\DvlSql.Extensions.csproj",
         "projectName": "DvlSql.Extensions",
@@ -13,8 +13,12 @@
         "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.Extensions\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -23,7 +27,6 @@
         "sources": {
           "C:\\Custom Offline Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -66,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -79,8 +82,12 @@
         "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer.Tests\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -89,7 +96,6 @@
         "sources": {
           "C:\\Custom Offline Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -150,12 +156,12 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
     "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer\\DvlSql.SqlServer.csproj": {
-      "version": "4.1.26",
+      "version": "4.1.27",
       "restore": {
         "projectUniqueName": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer\\DvlSql.SqlServer.csproj",
         "projectName": "DvlSql.SqlServer",
@@ -163,8 +169,12 @@
         "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.SqlServer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -173,7 +183,6 @@
         "sources": {
           "C:\\Custom Offline Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -209,6 +218,10 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.Extensions.Options": {
               "target": "Package",
               "version": "[8.0.2, )"
@@ -234,12 +247,12 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
     "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql\\DvlSql.csproj": {
-      "version": "4.1.17",
+      "version": "4.1.18",
       "restore": {
         "projectUniqueName": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql\\DvlSql.csproj",
         "projectName": "DvlSql",
@@ -247,8 +260,12 @@
         "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -257,7 +274,6 @@
         "sources": {
           "C:\\Custom Offline Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -302,7 +318,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

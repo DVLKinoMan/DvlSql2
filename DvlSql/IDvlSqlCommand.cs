@@ -10,4 +10,6 @@ public interface IDvlSqlCommand : IDisposable
         CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
     Task<TResult> ExecuteScalarAsync<TResult>(Func<object, TResult> converterFunc, int? timeout = default, CancellationToken cancellationToken = default);
+    
+    string CommandText { get; }
 }

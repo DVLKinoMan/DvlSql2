@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>4.1.17</Version>
+        <Version>4.1.18</Version>
         <Authors>Daviti Dvali</Authors>
         <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql2</RepositoryUrl>
         <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql2</PackageProjectUrl>
@@ -13,8 +13,8 @@
         <PackageOutputPath>C:\Custom Offline Packages</PackageOutputPath>
         <PackageReleaseNotes>Reverse OrderBy</PackageReleaseNotes>
         <PackageTags>dsl, sql, Linq</PackageTags>
-        <AssemblyVersion>4.1.17</AssemblyVersion>
-        <FileVersion>4.1.17</FileVersion>
+        <AssemblyVersion>4.1.18</AssemblyVersion>
+        <FileVersion>4.1.18</FileVersion>
         <PackageLicenseFile>license.txt</PackageLicenseFile>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
     </PropertyGroup>

@@ -74,7 +74,7 @@ public class Any
         var commandMoq = CreateSqlCommandMock<bool>(readerMoq);
         var moq = CreateConnectionMockWithSqlStringContains<bool>(commandMoq);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .AnyAsync()
@@ -91,7 +91,7 @@ public class Any
         var commandMoq = CreateSqlCommandMock<bool>(readerMoq);
         var moq = CreateConnectionMockWithSqlStringContains<bool>(commandMoq);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Where(ConstantExpCol("f1") > 0)
             .Select()

@@ -47,6 +47,8 @@ internal class DvlSqlCommand(SqlCommand command) : IDvlSqlCommand //: IDvlSqlCom
         return converterFunc(result);
     }
 
+    public string CommandText => _sqlCommand.CommandText;
+
     public void Dispose()
     {
         _sqlCommand?.Dispose();

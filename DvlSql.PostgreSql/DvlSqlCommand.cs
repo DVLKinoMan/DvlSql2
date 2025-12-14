@@ -10,6 +10,8 @@ internal class DvlSqlCommand(NpgsqlCommand command) : IDvlSqlCommand //: IDvlSql
 {
     private readonly NpgsqlCommand _sqlCommand = command;
 
+    public string CommandText => _sqlCommand.CommandText;
+    
     private static NpgsqlCommand WithTimeout(NpgsqlCommand command, int timeout)
     {
         command.CommandTimeout = timeout;

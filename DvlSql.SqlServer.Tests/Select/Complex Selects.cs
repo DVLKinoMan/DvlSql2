@@ -11,12 +11,13 @@ namespace DvlSql.SqlServer.Tests.Select;
 public class ComplexSelects
 {
     private readonly DvlSqlMs _sql1 =
-        new (
-            "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi");
+        new(
+            new(){ ConnectionString = 
+            "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi"});
 
     private readonly DvlSqlMs _sql2 =
-        new (
-            @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+        new(
+            new(){ ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1"});
 
     [Test]
     public void TestMethod1()

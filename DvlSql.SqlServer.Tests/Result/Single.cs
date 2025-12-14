@@ -94,7 +94,7 @@ public class Single
         var commandMoq = CreateSqlCommandMock<T>(readerMoq);
         var moq = CreateConnectionMock<T>(commandMoq);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .SingleAsync<T>()
@@ -113,7 +113,7 @@ public class Single
 
         Assert.Throws(Is.InstanceOf(typeof(Exception)), () =>
         {
-            _ = new DvlSqlMs(moq.Object)
+            _ = new DvlSqlMs(moq.Object, new DvlSqlOptions())
                 .From(TableName)
                 .Select()
                 .SingleAsync<T>()
@@ -134,7 +134,7 @@ public class Single
         var commandMoq = CreateSqlCommandMock<T>(readerMoq);
         var moq = CreateConnectionMock<T>(commandMoq);
 
-        var actual = new DvlSqlMs(moq.Object)
+        var actual = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .SingleAsync(func)
@@ -151,7 +151,7 @@ public class Single
         var commandMoq = CreateSqlCommandMock<T>(readerMoq);
         var moq = CreateConnectionMock<T>(commandMoq);
 
-        var res = new DvlSqlMs(moq.Object)
+        var res = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .SingleAsync(func)

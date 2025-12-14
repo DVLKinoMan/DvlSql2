@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 
 namespace DvlSql.PostgreSql;
@@ -7,14 +8,26 @@ namespace DvlSql.PostgreSql;
 internal class DvlSqlConnection : IDvlSqlConnection
 {
     private readonly NpgsqlConnection _connection;
+    private readonly DvlSqlOptions _options;
     private DbTransaction? _transaction;
     private readonly IDvlSqlMsCommandFactory _commandFactory;
+    private readonly ILogger? _logger;
 
-    public DvlSqlConnection(string connectionString) =>
-        (_connection, _commandFactory) = (new(connectionString), new DvlSqlMsCommandFactory());
+    public DvlSqlConnection(DvlSqlOptions options, ILogger? logger)
+    {
+        _connection = new(options.ConnectionString);
+        _options = options;
+        _commandFactory = new DvlSqlMsCommandFactory();
+        _logger = logger;
+    }
 
-    public DvlSqlConnection(string connectionString, IDvlSqlMsCommandFactory commandFactory) =>
-        (_connection, _commandFactory) = (new(connectionString), commandFactory);
+    public DvlSqlConnection(DvlSqlOptions options, IDvlSqlMsCommandFactory commandFactory, ILogger? logger)
+    {
+        _options = options;
+        _connection = new(options.ConnectionString);
+        _commandFactory = commandFactory;
+        _logger = logger;
+    }
 
     public void Dispose()
     {
@@ -35,6 +48,7 @@ internal class DvlSqlConnection : IDvlSqlConnection
                 parameters?.ToSqlParameters().ToArray());
         try
         {
+            Log(command);
             return await func(command);
         }
         finally
@@ -42,6 +56,11 @@ internal class DvlSqlConnection : IDvlSqlConnection
             if (_transaction == null)
                 await _connection.CloseAsync();
         }
+    }
+
+    private void Log(IDvlSqlCommand command)
+    {
+        _logger?.LogDebug("Executing {SQL}", command.CommandText);
     }
 
     public async ValueTask<DbTransaction> BeginTransactionAsync(CancellationToken token = default)
@@ -67,7 +86,7 @@ internal class DvlSqlConnection : IDvlSqlConnection
     }
 
     public IDvlSqlConnection GetClone() =>
-        new DvlSqlConnection(_connection.ConnectionString, _commandFactory);
+        new DvlSqlConnection(_options, _commandFactory, _logger);
 
     public async ValueTask DisposeAsync()
     {

@@ -96,7 +96,7 @@ public class ToDictionary
         var commandMoq = CreateSqlCommandMock<Dictionary<TKey, List<TValue>>>(readerMoq);
         var moq = CreateConnectionMock<Dictionary<TKey, List<TValue>>>(commandMoq);
 
-        var dictionary = new DvlSqlMs(moq.Object)
+        var dictionary = new DvlSqlMs(moq.Object, new DvlSqlOptions())
             .From(TableName)
             .Select()
             .ToDictionaryAsync(keySelector, valueSelector)

@@ -98,7 +98,7 @@
           "lib/net8.0/System.Exts.dll": {}
         }
       },
-      "DvlSql/4.1.17": {
+      "DvlSql/4.1.18": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -111,11 +111,11 @@
           "bin/placeholder/DvlSql.dll": {}
         }
       },
-      "DvlSql.Extensions/4.1.20": {
+      "DvlSql.Extensions/4.1.21": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "DvlSql": "4.1.17"
+          "DvlSql": "4.1.18"
         },
         "compile": {
           "bin/placeholder/DvlSql.Extensions.dll": {}
@@ -339,12 +339,12 @@
         "systemnet.exts.nuspec"
       ]
     },
-    "DvlSql/4.1.17": {
+    "DvlSql/4.1.18": {
       "type": "project",
       "path": "../DvlSql/DvlSql.csproj",
       "msbuildProject": "../DvlSql/DvlSql.csproj"
     },
-    "DvlSql.Extensions/4.1.20": {
+    "DvlSql.Extensions/4.1.21": {
       "type": "project",
       "path": "../DvlSql.Extensions/DvlSql.Extensions.csproj",
       "msbuildProject": "../DvlSql.Extensions/DvlSql.Extensions.csproj"
@@ -352,17 +352,18 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "DvlSql.Extensions >= 4.1.20",
+      "DvlSql.Extensions >= 4.1.21",
       "Microsoft.Extensions.Options >= 8.0.2",
       "Npgsql >= 9.0.3",
       "SystemNET.Exts >= 3.3.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dvali\\.nuget\\packages\\": {}
+    "C:\\Users\\dvali\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "0.0.1",
+    "version": "0.0.2",
     "restore": {
       "projectUniqueName": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.PostgreSql\\DvlSql.PostgreSql.csproj",
       "projectName": "DvlSql.PostgreSql",
@@ -370,8 +371,12 @@
       "packagesPath": "C:\\Users\\dvali\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\dvali\\source\\repos\\DvlSql2\\DvlSql.PostgreSql\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\dvali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -380,7 +385,6 @@
       "sources": {
         "C:\\Custom Offline Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -437,7 +441,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
