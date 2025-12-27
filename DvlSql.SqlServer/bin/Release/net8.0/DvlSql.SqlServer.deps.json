@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "DvlSql.SqlServer/4.1.27": {
+      "DvlSql.SqlServer/4.1.28": {
         "dependencies": {
-          "DvlSql.Extensions": "4.1.20",
+          "DvlSql.Extensions": "4.1.21",
           "Microsoft.Data.SqlClient": "5.2.2",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
@@ -424,7 +424,7 @@
           }
         }
       },
-      "DvlSql/4.1.17": {
+      "DvlSql/4.1.18": {
         "dependencies": {
           "SystemNET.Exts": "3.3.1"
         },
@@ -432,9 +432,9 @@
           "DvlSql.dll": {}
         }
       },
-      "DvlSql.Extensions/4.1.20": {
+      "DvlSql.Extensions/4.1.21": {
         "dependencies": {
-          "DvlSql": "4.1.17"
+          "DvlSql": "4.1.18"
         },
         "runtime": {
           "DvlSql.Extensions.dll": {}
@@ -443,7 +443,7 @@
     }
   },
   "libraries": {
-    "DvlSql.SqlServer/4.1.27": {
+    "DvlSql.SqlServer/4.1.28": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -717,16 +717,16 @@
     "SystemNET.Exts/3.3.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EuP1dXswRBOv/Bkue3gGvnp2ic8QKgI8eb9BoxVPAc5krkP4zGA78WOpwtR5onfEfPdMJJS2cmw6DU53NHqqDg==",
+      "sha512": "sha512-g6Bwrug+gH09hMntQJQHmFW9tMNWrfSuECZrFufSm+LebWR6DdUBe8lie3d1IZ4FwjhPjFN/9dYiKOf6cMbB1w==",
       "path": "systemnet.exts/3.3.1",
       "hashPath": "systemnet.exts.3.3.1.nupkg.sha512"
     },
-    "DvlSql/4.1.17": {
+    "DvlSql/4.1.18": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "DvlSql.Extensions/4.1.20": {
+    "DvlSql.Extensions/4.1.21": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

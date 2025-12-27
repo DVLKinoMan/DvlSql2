@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "DvlSql/4.1.18": {
+      "DvlSql/4.1.19": {
         "dependencies": {
           "SystemNET.Exts": "3.3.1"
         },
@@ -25,7 +25,7 @@
     }
   },
   "libraries": {
-    "DvlSql/4.1.18": {
+    "DvlSql/4.1.19": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -33,7 +33,7 @@
     "SystemNET.Exts/3.3.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EuP1dXswRBOv/Bkue3gGvnp2ic8QKgI8eb9BoxVPAc5krkP4zGA78WOpwtR5onfEfPdMJJS2cmw6DU53NHqqDg==",
+      "sha512": "sha512-g6Bwrug+gH09hMntQJQHmFW9tMNWrfSuECZrFufSm+LebWR6DdUBe8lie3d1IZ4FwjhPjFN/9dYiKOf6cMbB1w==",
       "path": "systemnet.exts/3.3.1",
       "hashPath": "systemnet.exts.3.3.1.nupkg.sha512"
     }

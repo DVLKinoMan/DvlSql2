@@ -252,8 +252,8 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
     {
         _command.Append(
             $"DELETE {(expression.FromExpression.As != null ? $"{expression.FromExpression.As.Name} " : expression.Join?.Count != 0 ? expression.FromExpression.TableName : "")}");
-        expression.FromExpression.Accept(this);
         expression.OutputExpression?.Accept(this);
+        expression.FromExpression.Accept(this);
         if (expression.Join?.Count != 0)
         {
             if (expression.OutputExpression != null)
