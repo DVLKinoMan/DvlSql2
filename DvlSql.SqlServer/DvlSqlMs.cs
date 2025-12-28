@@ -28,7 +28,7 @@ public partial class DvlSqlMs : IDvlSql
     
     public ISelector From(string tableName, bool withNoLock = false)
     {
-        var fromExpression = FromExp(tableName, withNoLock);
+        var fromExpression = FromExp(tableName, withNoLock: withNoLock);
 
         return new SqlSelector(fromExpression, GetConnection());
     }
@@ -52,11 +52,14 @@ public partial class DvlSqlMs : IDvlSql
 
     public IUpdateSetable Update(string tableName)
     {
-        var updateExpression = new DvlSqlUpdateExpression(tableName);
+        var updateExpression = new DvlSqlUpdateExpression(new (tableName));
 
         return new SqlUpdateable(GetConnection(), updateExpression);
     }
 
+    public IUpdateSetable Update(DvlSqlFromWithTableExpression fromExpression) =>
+        new SqlUpdateable(GetConnection(), new (fromExpression));
+    
     public IDvlSql SetConnection(IDvlSqlConnection connection)
     {
         _dvlSqlConnection = connection;

@@ -1,8 +1,8 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlUpdateExpression(string tableName) : DvlSqlExpressionWithParameters
+public class DvlSqlUpdateExpression(DvlSqlFromWithTableExpression fromExpression) : DvlSqlExpressionWithParameters
 {
-    public string TableName { get; init; } = tableName;
+    public DvlSqlFromWithTableExpression FromExpression { get; init; } = fromExpression;
     public DvlSqlWhereExpression? WhereExpression { get; set; }
     public List<DvlSqlParameter> DvlSqlParameters { get; set; } = [];
 
@@ -17,7 +17,7 @@ public class DvlSqlUpdateExpression(string tableName) : DvlSqlExpressionWithPara
 
     public override DvlSqlExpression Clone() => UpdateClone();
 
-    public DvlSqlUpdateExpression UpdateClone() => new(TableName)
+    public DvlSqlUpdateExpression UpdateClone() => new(new(FromExpression.TableName, FromExpression.WithNoLock))
     {
         WhereExpression = WhereExpression?.WhereClone(),
         DvlSqlParameters = [.. DvlSqlParameters]

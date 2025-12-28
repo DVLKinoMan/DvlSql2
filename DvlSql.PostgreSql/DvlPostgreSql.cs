@@ -23,12 +23,12 @@ public partial class DvlPostgreSql : IDvlSql
         _logger = logger;
     }
 
-    private IDvlSqlConnection GetConnection() => 
+    private IDvlSqlConnection GetConnection() =>
         _dvlSqlConnection ?? new DvlSqlConnection(_options, _logger);
-    
+
     public ISelector From(string tableName, bool withNoLock = false)
     {
-        var fromExpression = FromExp(tableName, withNoLock);
+        var fromExpression = FromExp(tableName, withNoLock: withNoLock);
 
         return new SqlSelector(fromExpression, GetConnection());
     }
@@ -48,14 +48,18 @@ public partial class DvlPostgreSql : IDvlSql
         return new SqlDeletable(fromExpression, GetConnection());
     }
 
-    public IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression) => new SqlDeletable(fromExpression, GetConnection());
+    public IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression) =>
+        new SqlDeletable(fromExpression, GetConnection());
 
     public IUpdateSetable Update(string tableName)
     {
-        var updateExpression = new DvlSqlUpdateExpression(tableName);
+        var updateExpression = new DvlSqlUpdateExpression(new(tableName));
 
         return new SqlUpdateable(GetConnection(), updateExpression);
     }
+    
+    public IUpdateSetable Update(DvlSqlFromWithTableExpression fromExpression) =>
+        new SqlUpdateable(GetConnection(), new (fromExpression));
 
     public IDvlSql SetConnection(IDvlSqlConnection connection)
     {
@@ -75,7 +79,7 @@ public partial class DvlPostgreSql : IDvlSql
         }
         catch (Exception exc)
         {
-            var list = new List<Exception> {exc};
+            var list = new List<Exception> { exc };
             try
             {
                 await _dvlSqlConnection!.RollbackAsync(token);

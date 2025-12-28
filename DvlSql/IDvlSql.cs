@@ -86,6 +86,7 @@ public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable
     IDeletable DeleteFrom(string tableName);
     IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression);
     IUpdateSetable Update(string tableName);
+    IUpdateSetable Update(DvlSqlFromWithTableExpression fromExpression);
 
     IDvlSql SetConnection(IDvlSqlConnection connection);
 }

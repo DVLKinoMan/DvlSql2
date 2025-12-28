@@ -266,7 +266,8 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
 
     public void Visit(DvlSqlUpdateExpression expression)
     {
-        _command.Append($"UPDATE {expression.TableName}");
+        _command.Append(
+            $"UPDATE {(expression.FromExpression.As != null ? expression.FromExpression.As.Name : expression.FromExpression.TableName)}");
         _command.Append($"{Environment.NewLine}SET ");
         foreach (var sqlParam in expression.DvlSqlParameters)
             _command.Append(
@@ -278,6 +279,11 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
                 });
 
         _command.Remove(_command.Length - 2, 2);
+        if (expression.FromExpression.As != null)
+        {
+            _command.Append(Environment.NewLine);
+            expression.FromExpression.Accept(this);
+        }
         expression.WhereExpression?.Accept(this);
     }
 

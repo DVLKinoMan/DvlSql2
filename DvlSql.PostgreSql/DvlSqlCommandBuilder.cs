@@ -263,7 +263,7 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
 
     public void Visit(DvlSqlUpdateExpression expression)
     {
-        _command.Append($"UPDATE {expression.TableName}");
+        _command.Append($"UPDATE {expression.FromExpression.TableName}{(expression.FromExpression.As != null ? $" AS {expression.FromExpression.As.Name}" : string.Empty)}");
         _command.Append($"{Environment.NewLine}SET ");
         foreach (var sqlParam in expression.DvlSqlParameters)
             _command.Append(

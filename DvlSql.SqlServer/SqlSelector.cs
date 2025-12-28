@@ -41,7 +41,7 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
 
     public ISelector From(string tableName, bool withNoLock = false)
     {
-        _unionExpression.Add(FullSelectExp(SelectExp(), FromExp(tableName, withNoLock)));
+        _unionExpression.Add(FullSelectExp(SelectExp(), FromExp(tableName, withNoLock: withNoLock)));
 
         return this;
     }

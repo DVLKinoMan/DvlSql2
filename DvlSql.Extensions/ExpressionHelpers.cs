@@ -89,13 +89,15 @@ public static class ExpressionHelpers
             // _ when typeof(TValue) == typeof(bool?) => (MemberExpBool(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(byte) => (MemberExpByte(memberName) as DvlSqlMemberExpression<TValue>)!,
             // _ when typeof(TValue) == typeof(byte?) => (MemberExpByte(memberName) as DvlSqlMemberExpression<TValue?>)!,
-            _ when typeof(TValue) == typeof(decimal) => (MemberExpDecimal(memberName) as DvlSqlMemberExpression<TValue>)!,
+            _ when typeof(TValue) == typeof(decimal) =>
+                (MemberExpDecimal(memberName) as DvlSqlMemberExpression<TValue>)!,
             // _ when typeof(TValue) == typeof(decimal?) => (MemberExpDecimal(memberName) as DvlSqlMemberExpression<TValue?>)!,
-            _ when typeof(TValue) == typeof(DateTime) => (MemberExpDateTime(memberName) as DvlSqlMemberExpression<TValue>)!,
+            _ when typeof(TValue) == typeof(DateTime) =>
+                (MemberExpDateTime(memberName) as DvlSqlMemberExpression<TValue>)!,
             // _ when typeof(TValue) == typeof(DateTime?) => (MemberExpDateTime(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ => throw new NotImplementedException($"Type: {typeof(TValue)} was not implemented")
         };
-    
+
     public static DvlSqlGroupByMemberExpressionString GroupByMemberExpString(string memberName) => new(memberName);
 
     public static DvlSqlGroupByMemberExpressionInt GroupByMemberExpInt(string memberName) => new(memberName);
@@ -111,7 +113,7 @@ public static class ExpressionHelpers
     public static DvlSqlGroupByMemberExpressionBool GroupByMemberExpBool(string memberName) => new(memberName);
 
     public static DvlSqlGroupByMemberExpressionByte GroupByMemberExpByte(string memberName) => new(memberName);
-    
+
     public static DvlSqlOrExpression OrExp(params DvlSqlBinaryExpression[] innerExpressions) =>
         new(innerExpressions);
 
@@ -129,17 +131,13 @@ public static class ExpressionHelpers
         int? topNum = null) =>
         new(paramNames.ToList(), topNum);
 
-    public static DvlSqlFromWithTableExpression FromExp(string tableName, string @as, bool withNoLock = false)
+    public static DvlSqlFromWithTableExpression FromExp(string tableName, string? @as = null, bool withNoLock = false)
     {
-        var from = new DvlSqlFromWithTableExpression(tableName, withNoLock)
-        {
-            As = AsExp(@as)
-        };
+        var from = new DvlSqlFromWithTableExpression(tableName, withNoLock);
+        if (@as is not null)
+            from.As = AsExp(@as);
         return from;
     }
-
-    public static DvlSqlFromWithTableExpression FromExp(string tableName, bool withNoLock = false) =>
-        new(tableName, withNoLock);
 
     public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string? @as = null)
     {
@@ -295,9 +293,9 @@ public static class ExpressionHelpers
         => new(tableName, comparisonExpression);
 
     public static DvlSqlBinaryEmptyExpression EmptyExp() => new();
-    
+
     #region Aggregate Expressions
-    
+
     public static DvlSqlMaxExpressionString MaxExpString(string memberName) => new(memberName);
 
     public static DvlSqlMaxExpressionInt MaxExpInt(string memberName) => new(memberName);
@@ -329,9 +327,9 @@ public static class ExpressionHelpers
     public static DvlSqlMinExpressionBool MinExpBool(string memberName) => new(memberName);
 
     public static DvlSqlMinExpressionByte MinExpByte(string memberName) => new(memberName);
-    
+
     public static DvlSqlCountExpressionString CountAllExpString() => new("*");
-    
+
     public static DvlSqlCountExpressionString CountExpString(string memberName) => new(memberName);
 
     public static DvlSqlCountExpressionInt CountExpInt(string memberName) => new(memberName);
