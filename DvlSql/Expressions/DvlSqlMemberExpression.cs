@@ -169,6 +169,37 @@ public class DvlSqlMemberExpressionString(string memberName) : DvlSqlMemberExpre
         new(lhs, SqlComparisonOperator.Different, rhs);
 }
 
+public class DvlSqlMemberExpressionGuid(string memberName) : DvlSqlMemberExpression<Guid>(memberName)
+{
+    protected bool Equals(DvlSqlMemberExpressionString other) => throw new NotImplementedException();
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((DvlSqlMemberExpressionGuid)obj);
+    }
+
+    public override int GetHashCode() => throw new NotImplementedException();
+
+    public static DvlSqlComparisonExpression<Guid> operator ==(DvlSqlMemberExpressionGuid lhs,
+        DvlSqlConstantExpressionGuid rhs) =>
+        new(lhs, SqlComparisonOperator.Equality, rhs);
+
+    public static DvlSqlComparisonExpression<Guid> operator !=(DvlSqlMemberExpressionGuid lhs,
+        DvlSqlConstantExpressionGuid rhs) =>
+        new(lhs, SqlComparisonOperator.Different, rhs);
+
+    public static DvlSqlComparisonExpression<Guid> operator ==(DvlSqlConstantExpressionGuid lhs,
+        DvlSqlMemberExpressionGuid rhs) =>
+        new(lhs, SqlComparisonOperator.Equality, rhs);
+
+    public static DvlSqlComparisonExpression<Guid> operator !=(DvlSqlConstantExpressionGuid lhs,
+        DvlSqlMemberExpressionGuid rhs) =>
+        new(lhs, SqlComparisonOperator.Different, rhs);
+}
+
 public class DvlSqlMemberExpressionDateTime(string memberName) : DvlSqlMemberExpression<DateTime>(memberName)
 {
     protected bool Equals(DvlSqlMemberExpressionDateTime other) => throw new NotImplementedException();

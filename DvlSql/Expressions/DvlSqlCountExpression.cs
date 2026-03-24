@@ -383,6 +383,47 @@ public class DvlSqlCountExpressionString(string memberName) : DvlSqlCountExpress
     public override DvlSqlComparableExpression<long> ComparableClone() => throw new NotImplementedException();
 }
 
+public class DvlSqlCountExpressionGuid(string memberName) : DvlSqlCountExpression(memberName)
+{
+    protected bool Equals(DvlSqlCountExpressionGuid other) => other.MemberName == MemberName;
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((DvlSqlCountExpressionGuid)obj);
+    }
+
+    public override int GetHashCode() => throw new NotImplementedException();
+
+    public static DvlSqlGroupByBinaryExpression operator ==(
+        DvlSqlCountExpressionGuid lhs,
+        DvlSqlConstantExpressionGuid rhs) =>
+        new DvlSqlGroupByComparisonExpression(lhs,
+            SqlComparisonOperator.Equality, rhs);
+
+    public static DvlSqlGroupByBinaryExpression operator !=(
+        DvlSqlCountExpressionGuid lhs,
+        DvlSqlConstantExpressionGuid rhs) =>
+        new DvlSqlGroupByComparisonExpression(lhs,
+            SqlComparisonOperator.Different, rhs);
+
+    public static DvlSqlGroupByBinaryExpression operator ==(
+        DvlSqlConstantExpressionGuid lhs,
+        DvlSqlCountExpressionGuid rhs) =>
+        new DvlSqlGroupByComparisonExpression(lhs,
+            SqlComparisonOperator.Equality, rhs);
+
+    public static DvlSqlGroupByBinaryExpression operator !=(
+        DvlSqlConstantExpressionGuid lhs,
+        DvlSqlCountExpressionGuid rhs) =>
+        new DvlSqlGroupByComparisonExpression(lhs,
+            SqlComparisonOperator.Different, rhs);
+
+    public override DvlSqlComparableExpression<long> ComparableClone() => throw new NotImplementedException();
+}
+
 public class DvlSqlCountExpressionDateTime(string memberName) : DvlSqlCountExpression(memberName)
 {
     protected bool Equals(DvlSqlCountExpressionDateTime other) => other.MemberName == MemberName;

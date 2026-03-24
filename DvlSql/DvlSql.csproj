@@ -4,23 +4,23 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>4.1.22</Version>
+        <Version>4.2.0</Version>
         <Authors>Daviti Dvali</Authors>
         <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql2</RepositoryUrl>
         <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql2</PackageProjectUrl>
         <Description>DSL abstraction for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageOutputPath>C:\Custom Offline Packages</PackageOutputPath>
-        <PackageReleaseNotes>Reverse OrderBy</PackageReleaseNotes>
+        <PackageReleaseNotes></PackageReleaseNotes>
         <PackageTags>dsl, sql, Linq</PackageTags>
-        <AssemblyVersion>4.1.22</AssemblyVersion>
-        <FileVersion>4.1.22</FileVersion>
+        <AssemblyVersion>4.2.0</AssemblyVersion>
+        <FileVersion>4.2.0</FileVersion>
         <PackageLicenseFile>license.txt</PackageLicenseFile>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SystemNET.Exts" Version="3.3.1" />
+        <PackageReference Include="SystemNET.Exts" Version="3.3.2" />
     </ItemGroup>
 
     <ItemGroup>

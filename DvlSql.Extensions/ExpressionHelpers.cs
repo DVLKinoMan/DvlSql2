@@ -60,6 +60,8 @@ public static class ExpressionHelpers
     public static DvlSqlConstantColumnExpression ConstantExpCol(string columnName) => new(columnName);
 
     public static DvlSqlMemberExpressionString MemberExpString(string memberName) => new(memberName);
+    
+    public static DvlSqlMemberExpressionGuid MemberExpGuid(string memberName) => new(memberName);
 
     public static DvlSqlMemberExpressionInt MemberExpInt(string memberName) => new(memberName);
 
@@ -80,6 +82,7 @@ public static class ExpressionHelpers
         {
             _ when typeof(TValue) == typeof(string) => (MemberExpString(memberName) as DvlSqlMemberExpression<TValue>)!,
             _ when typeof(TValue) == typeof(int) => (MemberExpInt(memberName) as DvlSqlMemberExpression<TValue>)!,
+            _ when typeof(TValue) == typeof(Guid) => (MemberExpGuid(memberName) as DvlSqlMemberExpression<TValue>)!,
             // _ when typeof(TValue) == typeof(int?) => (MemberExpInt(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(double) => (MemberExpDouble(memberName) as DvlSqlMemberExpression<TValue>)!,
             // _ when typeof(TValue) == typeof(double?) => (MemberExpDouble(memberName) as DvlSqlMemberExpression<TValue?>)!,
@@ -99,6 +102,8 @@ public static class ExpressionHelpers
         };
 
     public static DvlSqlGroupByMemberExpressionString GroupByMemberExpString(string memberName) => new(memberName);
+    
+    public static DvlSqlGroupByMemberExpressionGuid GroupByMemberExpGuid(string memberName) => new(memberName);
 
     public static DvlSqlGroupByMemberExpressionInt GroupByMemberExpInt(string memberName) => new(memberName);
 
@@ -331,6 +336,8 @@ public static class ExpressionHelpers
     public static DvlSqlCountExpressionString CountAllExpString() => new("*");
 
     public static DvlSqlCountExpressionString CountExpString(string memberName) => new(memberName);
+    
+    public static DvlSqlCountExpressionGuid CountExpGuid(string memberName) => new(memberName);
 
     public static DvlSqlCountExpressionInt CountExpInt(string memberName) => new(memberName);
 

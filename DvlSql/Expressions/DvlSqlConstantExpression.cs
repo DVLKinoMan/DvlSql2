@@ -46,6 +46,12 @@ public class DvlSqlConstantExpressionString(string value, string? name = null)
     public static implicit operator DvlSqlConstantExpressionString(string val) => new(val);
 }
 
+public class DvlSqlConstantExpressionGuid(Guid value, string? name = null)
+    : DvlSqlConstantExpression<Guid>(value, name)
+{
+    public static implicit operator DvlSqlConstantExpressionGuid(Guid val) => new(val);
+}
+
 public class DvlSqlConstantExpressionDecimal(decimal value, string? name = null)
     : DvlSqlConstantExpression<decimal>(value, name)
 {
