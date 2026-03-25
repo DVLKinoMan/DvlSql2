@@ -18,7 +18,7 @@
 You can install **DvlSql** via NuGet Package Manager:
 
 ```powershell
-Install-Package DvlSql.PostgreSql -Version 0.0.1
+Install-Package DvlSql.PostgreSql -Version 0.1.0
 ```
 
 ---

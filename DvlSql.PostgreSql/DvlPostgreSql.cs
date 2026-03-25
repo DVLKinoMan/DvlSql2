@@ -101,11 +101,27 @@ public partial class DvlPostgreSql : IDvlSql
     public async Task RollbackAsync(CancellationToken token = default) =>
         await _dvlSqlConnection!.RollbackAsync(token);
 
-    public async Task<IDvlSqlConnection> BeginTransactionAsync(CancellationToken token = default)
+   
+    public async Task<IDvlSql> BeginTransactionAsync(CancellationToken token = default)
     {
         var conn = GetConnection().GetClone();
         await conn.BeginTransactionAsync(token);
-        return conn;
+        return new DvlPostgreSql(conn, _options, _logger);
+    }
+    
+    public async Task<IDvlSql> BeginTransactionAsync(Func<IDvlSql, Task> action, CancellationToken token = default)
+    {
+        var conn = GetConnection().GetClone();
+        await conn.BeginTransactionAsync(token);
+        return new DvlPostgreSql(conn, _options, _logger);
+    }
+    
+    public async Task ExecuteTransactionAsync(Func<IDvlSql, Task> action, CancellationToken token = default)
+    {
+        var conn = GetConnection().GetClone();
+        await conn.BeginTransactionAsync(token);
+        await action(this);
+        await CommitAsync(token);
     }
 
     public DvlSqlTableDeclarationExpression DeclareTable(string name) => new(name);

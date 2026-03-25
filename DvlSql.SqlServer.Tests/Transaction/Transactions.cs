@@ -16,19 +16,23 @@ public class Transactions
     //[Test]
     public async Task TestMethod1()
     {
-        var conn = await _sql.BeginTransactionAsync();
-        await _sql.SetConnection(conn).DeleteFrom("dbo.Words")
-            .ExecuteAsync();
-        _ = await _sql.SetConnection(conn).InsertInto<(int, string)>("dbo.Words",
-                IntType("Id"), NVarCharType("Name", 50))
-            .Values((1, "Some New Word"), (2, "Some New Word 2"))
-            .ExecuteAsync();
-        _ = await _sql.SetConnection(conn).Update("dbo.Words")
-            .Set(NVarChar("Name", "Updated Word", 50))
-            .Where(ConstantExpCol("Id") == 2)
-            .ExecuteAsync();
+        var tran = await _sql.BeginTransactionAsync(async transaction =>
+        {
+            await transaction.DeleteFrom("dbo.Words")
+                .ExecuteAsync();
 
-        await _sql.SetConnection(conn).CommitAsync();
+            await transaction.InsertInto<(int, string)>("dbo.Words",
+                    IntType("Id"), NVarCharType("Name", 50))
+                .Values((1, "Some New Word"), (2, "Some New Word 2"))
+                .ExecuteAsync();
+            
+            await transaction.Update("dbo.Words")
+                .Set(NVarChar("Name", "Updated Word", 50))
+                .Where(ConstantExpCol("Id") == 2)
+                .ExecuteAsync();
+        });
+
+        await tran.CommitAsync();
     }
 
 
@@ -39,16 +43,21 @@ public class Transactions
         var table = _sql.DeclareTable("inserted")
             .AddColumns(IntType("id", true));
 
-        var conn = await _sql.BeginTransactionAsync();
-        await _sql.SetConnection(conn).DeleteFrom("dbo.Words")
-            .ExecuteAsync();
+        await _sql.ExecuteTransactionAsync(async transaction =>
+        {
+            await transaction.DeleteFrom("dbo.Words")
+                .ExecuteAsync();
 
-        var k = await _sql.SetConnection(conn).InsertInto<(int, string)>("dbo.Words",
-                IntType("Id"), NVarCharType("Name", 50))
-            .Output(AsList (r=>int.Parse(r["id"].ToString()!)),"inserted.id")
-            .Values((1, "Some New Word"), (2, "Some New Word 2"))
-            .ExecuteAsync();
-
-        await _sql.SetConnection(conn).CommitAsync();
+            await transaction.InsertInto<(int, string)>("dbo.Words",
+                    IntType("Id"), NVarCharType("Name", 50))
+                .Output(AsList (r=>int.Parse(r["id"].ToString()!)),"inserted.id")
+                .Values((1, "Some New Word"), (2, "Some New Word 2"))
+                .ExecuteAsync();
+            
+            await transaction.Update("dbo.Words")
+                .Set(NVarChar("Name", "Updated Word", 50))
+                .Where(ConstantExpCol("Id") == 2)
+                .ExecuteAsync();
+        });
     }
 }

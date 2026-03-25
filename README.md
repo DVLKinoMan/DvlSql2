@@ -152,17 +152,22 @@ var result = await sql.Procedure("dbo.GetWordById")
 ### Transaction
 
 ```csharp
-await sql.BeginTransactionAsync(async transaction =>
-{
-    await transaction.Update("dbo.Words")
-        .Set(NVarChar("Text", 50, "Updated"))
-        .Where(ConstantExpCol("Id") == 1)
-        .ExecuteAsync();
+await _sql.ExecuteTransactionAsync(async transaction =>
+        {
+            await transaction.DeleteFrom("dbo.Words")
+                .ExecuteAsync();
 
-    await transaction.InsertInto<string>("dbo.Log", NVarCharType("Message", 200))
-        .Values(("Record updated",))
-        .ExecuteAsync();
-});
+            await transaction.InsertInto<(int, string)>("dbo.Words",
+                    IntType("Id"), NVarCharType("Name", 50))
+                .Output(AsList (r=>int.Parse(r["id"].ToString()!)),"inserted.id")
+                .Values((1, "Some New Word"), (2, "Some New Word 2"))
+                .ExecuteAsync();
+            
+            await transaction.Update("dbo.Words")
+                .Set(NVarChar("Name", "Updated Word", 50))
+                .Where(ConstantExpCol("Id") == 2)
+                .ExecuteAsync();
+        });
 ```
 
 ### UNION
