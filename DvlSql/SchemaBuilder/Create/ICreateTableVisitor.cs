@@ -2,10 +2,10 @@
 
 namespace DvlSql;
 
-public interface ISchemaBuilderVisitor
+public interface ICreateTableVisitor
 {
     void Visit(DvlSqlCreateTableExpression expression);
-    void Visit(DvlSqlColumnExpression expression);
+    void Visit(DvlSqlCreateColumnExpression expression);
     void Visit(DvlSqlPrimaryKeyExpression expression);
     void Visit(DvlSqlDefaultExpression expression);
     void Visit(DvlSqlUniqueExpression expression);

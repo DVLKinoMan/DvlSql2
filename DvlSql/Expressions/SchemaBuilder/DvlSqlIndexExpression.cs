@@ -7,5 +7,6 @@ public class DvlSqlIndexExpression(string name, string tableName, string columnN
     public bool IsUnique { get; set; } = isUnique;
     public string ColumnName { get; } = columnName;
     
-    public void Accept(ISchemaBuilderVisitor visitor) => visitor.Visit(this);
+    public void Accept(ICreateTableVisitor visitor) => visitor.Visit(this);
+    public void Accept(IAlterTableVisitor visitor) => visitor.Visit(this);
 }

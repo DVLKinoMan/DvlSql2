@@ -6,9 +6,9 @@ public partial class DvlSqlMs
 
     public ITableCreator CreateTable(string associatedName, string tableName) => new DvlSqlTableCreator(tableName, this);
 
-    public ITableAlterer AlterTable(string tableName) => throw new NotImplementedException();
+    public ITableAlterer AlterTable(string tableName) => new DvlSqlTableAlterer(tableName, this);
 
-    public ITableAlterer AlterTable(string associatedName, string tableName) => throw new NotImplementedException();
+    public ITableAlterer AlterTable(string associatedName, string tableName) => new DvlSqlTableAlterer(tableName, this);
 
     public ISchemaExecutable RenameTable(string oldTableName, string newTableName) => throw new NotImplementedException();
 

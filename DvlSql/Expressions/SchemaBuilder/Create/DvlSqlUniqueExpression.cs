@@ -1,8 +1,0 @@
-﻿namespace DvlSql.Expressions;
-
-public class DvlSqlUniqueExpression(string name)
-{
-    public string Name { get; } = name;
-    
-    public void Accept(ISchemaBuilderVisitor visitor) => visitor.Visit(this);
-}

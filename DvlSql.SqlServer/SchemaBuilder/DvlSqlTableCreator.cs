@@ -8,7 +8,7 @@ internal class DvlSqlTableCreator : ITableCreator, IColumnCreator
 {
     private readonly IDvlSql _dvlSql;
     private readonly DvlSqlCreateTableExpression _createTableExpression;
-    private DvlSqlColumnExpression _currentColumn;
+    private DvlSqlCreateColumnExpression _currentCreateColumn;
 
     public DvlSqlTableCreator(string tableName, IDvlSql dvlSql)
     {
@@ -18,67 +18,67 @@ internal class DvlSqlTableCreator : ITableCreator, IColumnCreator
 
     public IColumnCreator WithColumn(string name)
     {
-        _currentColumn = new(name);
-        _createTableExpression.ColumnExpressions.Add(_currentColumn);
+        _currentCreateColumn = new(name);
+        _createTableExpression.ColumnExpressions.Add(_currentCreateColumn);
         return this;
     }
 
     public IColumnCreator WithColumn(string associatedName, string name)
     {
-        _currentColumn = new(name);
-        _createTableExpression.ColumnExpressions.Add(_currentColumn);
+        _currentCreateColumn = new(name);
+        _createTableExpression.ColumnExpressions.Add(_currentCreateColumn);
         return this;
     }
 
     public IColumnCreator AsType(DvlSqlType type)
     {
-        _currentColumn.Type = type.SqlDbType;
-        _currentColumn.Size = type.Size;
-        _currentColumn.Precision = type.Precision;
+        _currentCreateColumn.Type = type.SqlDbType;
+        _currentCreateColumn.Size = type.Size;
+        _currentCreateColumn.Precision = type.Precision;
         return this;
     }
 
     public IColumnCreator AsType(SqlDbType type, int? size = null, byte? precision = null, byte? scale = null)
     {
-        _currentColumn.Type = type;
-        _currentColumn.Size = size;
-        _currentColumn.Precision = precision;
+        _currentCreateColumn.Type = type;
+        _currentCreateColumn.Size = size;
+        _currentCreateColumn.Precision = precision;
         return this;
     }
 
     public IColumnCreator AsNotNull()
     {
-        _currentColumn.IsNull = false;
+        _currentCreateColumn.IsNull = false;
         return this;
     }
 
     public IColumnCreator AsNull()
     {
-        _currentColumn.IsNull = true;
+        _currentCreateColumn.IsNull = true;
         return this;
     }
 
     public IColumnCreator AsUnique(string name)
     {
-        _currentColumn.UniqueExpression = new(name);
+        _currentCreateColumn.UniqueExpression = new(name, _currentCreateColumn.Name);
         return this;
     }
 
     public IColumnCreator AsDefault(string name, string defaultValue)
     {
-        _currentColumn.DefaultExpression = new(name, defaultValue);
+        _currentCreateColumn.DefaultExpression = new(name, defaultValue, _currentCreateColumn.Name);
         return this;
     }
 
     public IColumnCreator AsPrimaryKey(string name)
     {
-        _currentColumn.PrimaryKeyExpression = new(name);
+        _currentCreateColumn.PrimaryKeyExpression = new(name, _currentCreateColumn.Name);
         return this;
     }
 
     public IColumnCreator AsForeignKey(string name, string referenceTable, string referenceColumn)
     {
-        _currentColumn.ForeignKeyExpression = new(name, referenceTable, referenceColumn);
+        _currentCreateColumn.ForeignKeyExpression = new(name, _currentCreateColumn.Name, referenceTable, referenceColumn);
         return this;
     }
 
@@ -86,13 +86,13 @@ internal class DvlSqlTableCreator : ITableCreator, IColumnCreator
         string associatedColumnName,
         string referenceColumn)
     {
-        _currentColumn.ForeignKeyExpression = new(name, referenceTable, referenceColumn);
+        _currentCreateColumn.ForeignKeyExpression = new(name, _currentCreateColumn.Name, referenceTable, referenceColumn);
         return this;
     }
 
     public IColumnCreator HasIndex(string name)
     {
-        _currentColumn.IndexExpression = new(name, _createTableExpression.Name, _currentColumn.Name);
+        _currentCreateColumn.IndexExpression = new(name, _createTableExpression.Name, _currentCreateColumn.Name);
         return this;
     }
 

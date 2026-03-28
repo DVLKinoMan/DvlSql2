@@ -2,7 +2,7 @@
 
 namespace DvlSql.Expressions;
 
-public class DvlSqlColumnExpression(string name)
+public class DvlSqlCreateColumnExpression(string name)
 {
     public string Name { get; } = name;
     public SqlDbType? Type { get; set; }
@@ -16,5 +16,6 @@ public class DvlSqlColumnExpression(string name)
     public DvlSqlIndexExpression? IndexExpression { get; set; }
     public DvlSqlUniqueExpression? UniqueExpression { get; set; }
     
-    public void Accept(ISchemaBuilderVisitor visitor) => visitor.Visit(this);
+    public void Accept(ICreateTableVisitor visitor) => visitor.Visit(this);
+    public void Accept(IAlterTableVisitor visitor) => visitor.Visit(this);
 }

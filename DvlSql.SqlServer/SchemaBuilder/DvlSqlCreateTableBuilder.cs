@@ -3,7 +3,7 @@ using DvlSql.Expressions;
 
 namespace DvlSql.SqlServer;
 
-public class DvlSqlSchemaBuilder(StringBuilder command) : ISchemaBuilderVisitor
+internal class DvlSqlSchemaBuilder(StringBuilder command) : ICreateTableVisitor
 {
     private readonly StringBuilder _command = command;
     
@@ -25,7 +25,7 @@ public class DvlSqlSchemaBuilder(StringBuilder command) : ISchemaBuilderVisitor
             column.IndexExpression?.Accept(this);
     }
 
-    public void Visit(DvlSqlColumnExpression expression)
+    public void Visit(DvlSqlCreateColumnExpression expression)
     {
         this._command.Append($"{expression.Name} ");
 
