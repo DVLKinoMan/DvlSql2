@@ -2,5 +2,5 @@
 
 public interface ISchemaExecutable
 {
-    Task ExecuteAsync(CancellationToken cancellationToken);
+    Task ExecuteAsync(int? timeout = null, CancellationToken cancellationToken = default);
 }

@@ -2,7 +2,7 @@
 
 namespace DvlSql;
 
-public interface IColumnCreator : ITableCreator
+public interface IColumnCreator : ITableCreator, ISchemaExecutable
 {
    IColumnCreator AsType(DvlSqlType type);
    IColumnCreator AsType(SqlDbType type, int? size = null, byte? precision = null, byte? scale = null);

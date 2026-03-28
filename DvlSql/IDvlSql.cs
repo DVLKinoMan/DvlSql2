@@ -89,4 +89,5 @@ public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable, ITa
     IUpdateSetable Update(DvlSqlFromWithTableExpression fromExpression);
 
     IDvlSql SetConnection(IDvlSqlConnection connection);
+    Task ExecuteSqlAsync(string sql, int? timeout = null, CancellationToken token = default);
 }

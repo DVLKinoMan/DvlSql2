@@ -122,5 +122,13 @@ public partial class DvlSqlMs : IDvlSql
         await CommitAsync(token);
     }
 
+    public async Task ExecuteSqlAsync(string sql, int? timeout = null, CancellationToken token = default)
+    {
+        var conn = GetConnection().GetClone();
+        await conn.ConnectAsync(
+            dvlCommand => dvlCommand.ExecuteNonQueryAsync(timeout, token),
+            sql);
+    }
+
     public DvlSqlTableDeclarationExpression DeclareTable(string name) => new(name);
 }

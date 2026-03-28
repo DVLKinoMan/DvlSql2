@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlUniqueExpression(string name)
+public class DvlSqlPrimaryKeyExpression(string name)
 {
     public string Name { get; } = name;
     
