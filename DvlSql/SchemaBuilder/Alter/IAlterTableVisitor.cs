@@ -15,5 +15,7 @@ public interface IAlterTableVisitor
     void Visit(DvlSqlDropConstraintExpression expression);
     void Visit(DvlSqlDropIndexExpression expression);
     void Visit(DvlSqlRenameColumnExpression expression);
+    void Visit(DvlSqlRenameTableExpression expression);
     void Visit(DvlSqlDropColumnExpression expression);
+    void Visit(DvlSqlDropTableExpression expression);
 }

@@ -136,9 +136,23 @@ internal class DvlSqlAlterTableBuilder(StringBuilder command) : IAlterTableVisit
             $"EXEC sp_rename '{_currentTable}.{expression.OldColumnName}', '{expression.NewColumnName}', 'COLUMN';");
     }
 
+    public void Visit(DvlSqlRenameTableExpression expression)
+    {
+        _command.AppendLine(
+            $"EXEC sp_rename '{expression.OldTableName}', '{expression.NewTableName}';");
+    }
+
     public void Visit(DvlSqlDropColumnExpression expression)
     {
         _command.AppendLine(
             $"ALTER TABLE {_currentTable} DROP COLUMN {expression.Name};");
+    }
+
+    public void Visit(DvlSqlDropTableExpression expression)
+    {
+        _command.AppendLine(
+            $"IF OBJECT_ID('{expression.Name}', 'U') IS NOT NULL");
+        _command.AppendLine(
+            $"    DROP TABLE {expression.Name};");
     }
 }
