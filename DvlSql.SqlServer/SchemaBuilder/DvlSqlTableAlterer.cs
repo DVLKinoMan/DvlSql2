@@ -9,6 +9,12 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
     private readonly IDvlSql _dvlSql;
     private readonly DvlSqlAlterTableExpression _alterTableExpression;
 
+    private DvlSqlColumnExpression GetColumnExpression()
+        => _alterTableExpression.AlterColumnExpression is not null
+            ? _alterTableExpression.AlterColumnExpression
+            : _alterTableExpression.AddColumnExpression
+              ?? throw new InvalidOperationException("Column alter and add expressions are null");
+
     public DvlSqlTableAlterer(string tableName, IDvlSql dvlSql)
     {
         _dvlSql = dvlSql;
@@ -41,57 +47,61 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
 
     public IColumnAlterer AsType(DvlSqlType type)
     {
-        _alterTableExpression.AlterColumnExpression!.Type = type.SqlDbType;
-        _alterTableExpression.AlterColumnExpression.Size = type.Size;
-        _alterTableExpression.AlterColumnExpression.Precision = type.Precision;
+        var columnExp = GetColumnExpression();
+        columnExp.Type = type.SqlDbType;
+        columnExp.Size = type.Size;
+        columnExp.Precision = type.Precision;
         return this;
     }
 
     public IColumnAlterer AsType(SqlDbType type, int? size = null, byte? precision = null, byte? scale = null)
     {
-        _alterTableExpression.AlterColumnExpression!.Type = type;
-        _alterTableExpression.AlterColumnExpression.Size = size;
-        _alterTableExpression.AlterColumnExpression.Precision = precision;
+        var columnExp = GetColumnExpression();
+        columnExp.Type = type;
+        columnExp.Size = size;
+        columnExp.Precision = precision;
         return this;
     }
 
     public IColumnAlterer AsNotNull()
     {
-        _alterTableExpression.AlterColumnExpression!.IsNull = false;
+        var columnExp = GetColumnExpression();
+        columnExp.IsNull = false;
         return this;
     }
 
     public IColumnAlterer AsNull()
     {
-        _alterTableExpression.AlterColumnExpression!.IsNull = true;
+        var columnExp = GetColumnExpression();
+        columnExp.IsNull = true;
         return this;
     }
 
     public IColumnAlterer AsUnique(string name)
     {
-        _alterTableExpression.AlterColumnExpression!.UniqueExpression =
-            new(name, _alterTableExpression.AlterColumnExpression.Name);
+        var columnExp = GetColumnExpression();
+        columnExp.UniqueExpression = new(name, columnExp.Name);
         return this;
     }
 
     public IColumnAlterer AsDefault(string name, string defaultValue)
     {
-        _alterTableExpression.AlterColumnExpression!.DefaultExpression =
-            new(name, defaultValue, _alterTableExpression.AlterColumnExpression.Name);
+        var columnExp = GetColumnExpression();
+        columnExp.DefaultExpression = new(name, defaultValue, columnExp.Name);
         return this;
     }
 
     public IColumnAlterer AsPrimaryKey(string name)
     {
-        _alterTableExpression.AlterColumnExpression!.PrimaryKeyExpression =
-            new(name, _alterTableExpression.AlterColumnExpression.Name);
+        var columnExp = GetColumnExpression();
+        columnExp.PrimaryKeyExpression = new(name, columnExp.Name);
         return this;
     }
 
     public IColumnAlterer AsForeignKey(string name, string referenceTable, string referenceColumn)
     {
-        _alterTableExpression.AlterColumnExpression!.ForeignKeyExpression = new(name,
-            _alterTableExpression.AlterColumnExpression.Name, referenceTable, referenceColumn);
+        var columnExp = GetColumnExpression();
+        columnExp.ForeignKeyExpression = new(name, columnExp.Name, referenceTable, referenceColumn);
         return this;
     }
 
@@ -99,26 +109,27 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
         string associatedColumnName,
         string referenceColumn)
     {
-        _alterTableExpression.AlterColumnExpression!.ForeignKeyExpression = new(name,
-            _alterTableExpression.AlterColumnExpression.Name, referenceTable, referenceColumn);
+        var columnExp = GetColumnExpression();
+        columnExp.ForeignKeyExpression = new(name, columnExp.Name, referenceTable, referenceColumn);
         return this;
     }
 
     public IColumnAlterer HasIndex(string name)
     {
-        _alterTableExpression.AlterColumnExpression!.IndexExpression = new(name, _alterTableExpression.Name,
-            _alterTableExpression.AlterColumnExpression.Name);
+        var columnExp = GetColumnExpression();
+        columnExp.IndexExpression = new(name, _alterTableExpression.Name, columnExp.Name);
         return this;
     }
 
     public async Task ExecuteAsync(int? timeout = null, CancellationToken cancellationToken = default)
     {
         // Handle unique indexes
-        if (_alterTableExpression.AlterColumnExpression?.UniqueExpression is not null &&
-            _alterTableExpression.AlterColumnExpression.IndexExpression is not null)
+        var columnExp = GetColumnExpression();
+        if (columnExp?.UniqueExpression is not null &&
+            columnExp.IndexExpression is not null)
         {
-            _alterTableExpression.AlterColumnExpression.UniqueExpression = null;
-            _alterTableExpression.AlterColumnExpression.IndexExpression!.IsUnique = true;
+            columnExp.UniqueExpression = null;
+            columnExp.IndexExpression!.IsUnique = true;
         }
 
         await _dvlSql.ExecuteSqlAsync(ToString(), timeout, cancellationToken);

@@ -35,24 +35,26 @@ internal class DvlSqlAlterTableBuilder(StringBuilder command) : IAlterTableVisit
     {
         _command.AppendLine(
             $"ALTER TABLE {_currentTable}{Environment.NewLine}" +
-            $"ADD COLUMN {expression.Name} " +
+            $"ADD {expression.Name} " +
             $"{Exts.ToSqlString(expression.Type.Value, expression.Size, expression.Precision, expression.Scale)} " +
-            $"{(expression.IsNull ? "NULL" : "NOT NULL")};");
+            $"{(expression.IsNull ? "NULL" : "NOT NULL")}");
 
+        var createBuilder = new DvlSqlCreateTableBuilder(this._command);
+        
         // DEFAULT (must be separate)
-        expression.DefaultExpression?.Accept(this);
+        expression.DefaultExpression?.Accept(createBuilder);
 
         // PRIMARY KEY (separate constraint)
-        expression.PrimaryKeyExpression?.Accept(this);
+        expression.PrimaryKeyExpression?.Accept(createBuilder);
 
         // UNIQUE
-        expression.UniqueExpression?.Accept(this);
+        expression.UniqueExpression?.Accept(createBuilder);
 
         // FOREIGN KEY
-        expression.ForeignKeyExpression?.Accept(this);
+        expression.ForeignKeyExpression?.Accept(createBuilder);
 
         // INDEX (separate statement)
-        expression.IndexExpression?.Accept(this);
+        expression.IndexExpression?.Accept(createBuilder);
     }
 
     public void Visit(DvlSqlAlterColumnExpression expression)
@@ -153,6 +155,6 @@ internal class DvlSqlAlterTableBuilder(StringBuilder command) : IAlterTableVisit
         _command.AppendLine(
             $"IF OBJECT_ID('{expression.Name}', 'U') IS NOT NULL");
         _command.AppendLine(
-            $"    DROP TABLE {expression.Name};");
+            $" DROP TABLE {expression.Name};");
     }
 }

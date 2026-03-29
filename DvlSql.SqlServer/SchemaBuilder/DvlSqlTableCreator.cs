@@ -112,7 +112,7 @@ internal class DvlSqlTableCreator : ITableCreator, IColumnCreator
     public override string ToString()
     {
         var builder = new StringBuilder();
-        var commandBuilder = new DvlSqlSchemaBuilder(builder);
+        var commandBuilder = new DvlSqlCreateTableBuilder(builder);
 
         _createTableExpression.Accept(commandBuilder);
 

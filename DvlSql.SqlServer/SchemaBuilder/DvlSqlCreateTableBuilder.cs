@@ -3,7 +3,7 @@ using DvlSql.Expressions;
 
 namespace DvlSql.SqlServer;
 
-internal class DvlSqlSchemaBuilder(StringBuilder command) : ICreateTableVisitor
+internal class DvlSqlCreateTableBuilder(StringBuilder command) : ICreateTableVisitor
 {
     private readonly StringBuilder _command = command;
     
