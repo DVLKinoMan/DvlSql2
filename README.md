@@ -8,10 +8,10 @@
 
 | Package | Version | Description |
 |---|---|---|
-| `DvlSql` | 4.2.0 | Core abstractions, interfaces, and SQL expressions |
-| `DvlSql.Extensions` | 4.2.0 | Helper extensions and SQL type factories |
-| `DvlSql.SqlServer` | 4.2.0 | MS SQL Server implementation (uses `Microsoft.Data.SqlClient`) |
-| `DvlSql.PostgreSql` | 0.0.1 | PostgreSQL implementation (uses `Npgsql`) |
+| `DvlSql` | 4.3.0 | Core abstractions, interfaces, and SQL expressions |
+| `DvlSql.Extensions` | 4.3.0 | Helper extensions and SQL type factories |
+| `DvlSql.SqlServer` | 4.3.0 | MS SQL Server implementation (uses `Microsoft.Data.SqlClient`) |
+| `DvlSql.PostgreSql` | 0.1.0 | PostgreSQL implementation (uses `Npgsql`) |
 
 ---
 
@@ -33,12 +33,12 @@ DvlSql2/
 
 ### MS SQL Server
 ```powershell
-NuGet\Install-Package DvlSql.SqlServer -Version 4.2.0
+NuGet\Install-Package DvlSql.SqlServer -Version 4.3.0
 ```
 
 ### PostgreSQL
 ```powershell
-NuGet\Install-Package DvlSql.PostgreSql -Version 0.0.1
+NuGet\Install-Package DvlSql.PostgreSql -Version 0.1.0
 ```
 
 ---
