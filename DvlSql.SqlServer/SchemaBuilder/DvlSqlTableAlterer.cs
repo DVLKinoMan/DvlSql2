@@ -173,6 +173,12 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
         return this;
     }
 
+    public ISchemaExecutable DropIndex(string associatedName, string name)
+    {
+        _alterTableExpression.DropIndexExpression = new(name, associatedName);
+        return this;
+    }
+
     public ISchemaExecutable DropConstraint(string name)
     {
         _alterTableExpression.DropConstraintExpression = new(name);
