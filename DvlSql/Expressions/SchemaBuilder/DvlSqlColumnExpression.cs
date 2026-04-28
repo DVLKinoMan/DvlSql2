@@ -2,9 +2,10 @@
 
 namespace DvlSql.Expressions;
 
-public abstract class DvlSqlColumnExpression(string name)
+public abstract class DvlSqlColumnExpression(string name, string? associatedName = null)
 {
     public string Name { get; } = name;
+    public string? AssociatedName { get; set; } = associatedName;
     public SqlDbType? Type { get; set; }
     public int? Size { get; set; }
     public byte? Precision { get; set; }

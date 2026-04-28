@@ -20,6 +20,12 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
         _dvlSql = dvlSql;
         _alterTableExpression = new(tableName);
     }
+    
+    public DvlSqlTableAlterer(string tableName, string associatedName, IDvlSql dvlSql)
+    {
+        _dvlSql = dvlSql;
+        _alterTableExpression = new(tableName, associatedName);
+    }
 
     public IColumnAlterer WithColumn(string name)
     {
@@ -29,7 +35,7 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
 
     public IColumnAlterer WithColumn(string associatedName, string name)
     {
-        _alterTableExpression.AddColumnExpression = new(name);
+        _alterTableExpression.AddColumnExpression = new(name, associatedName);
         return this;
     }
 
@@ -41,7 +47,7 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
 
     public IColumnAlterer AlterColumn(string associatedName, string columnName)
     {
-        _alterTableExpression.AlterColumnExpression = new(columnName);
+        _alterTableExpression.AlterColumnExpression = new(columnName, associatedName);
         return this;
     }
 
@@ -157,7 +163,7 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
 
     public ISchemaExecutable DropColumn(string associatedName, string columnName)
     {
-        _alterTableExpression.DropColumnExpression = new(columnName);
+        _alterTableExpression.DropColumnExpression = new(columnName, associatedName);
         return this;
     }
 
@@ -181,7 +187,7 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
 
     public ISchemaExecutable RenameColumn(string associatedName, string oldColumnName, string newColumnName)
     {
-        _alterTableExpression.RenameColumnExpression = new(oldColumnName, newColumnName);
+        _alterTableExpression.RenameColumnExpression = new(oldColumnName, newColumnName, associatedName);
         return this;
     }
 }

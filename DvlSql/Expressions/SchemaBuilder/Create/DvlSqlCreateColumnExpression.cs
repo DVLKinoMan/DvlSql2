@@ -2,9 +2,9 @@
 
 namespace DvlSql.Expressions;
 
-public class DvlSqlCreateColumnExpression(string name, string? associatedName = null) : DvlSqlColumnExpression(name)
+public class DvlSqlCreateColumnExpression(string name, string? associatedName = null)
+    : DvlSqlColumnExpression(name, associatedName)
 {
-    public string? AssociatedName { get; set; } = associatedName;
     public void Accept(ICreateTableVisitor visitor) => visitor.Visit(this);
     public void Accept(IAlterTableVisitor visitor) => visitor.Visit(this);
     
