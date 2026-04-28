@@ -15,6 +15,12 @@ internal class DvlSqlTableCreator : ITableCreator, IColumnCreator
         _dvlSql = dvlSql;
         _createTableExpression = new(tableName);
     }
+    
+    public DvlSqlTableCreator(string tableName, string associatedName, IDvlSql dvlSql)
+    {
+        _dvlSql = dvlSql;
+        _createTableExpression = new(tableName, associatedName);
+    }
 
     public IColumnCreator WithColumn(string name)
     {
@@ -25,7 +31,7 @@ internal class DvlSqlTableCreator : ITableCreator, IColumnCreator
 
     public IColumnCreator WithColumn(string associatedName, string name)
     {
-        _currentCreateColumn = new(name);
+        _currentCreateColumn = new(name, associatedName);
         _createTableExpression.ColumnExpressions.Add(_currentCreateColumn);
         return this;
     }

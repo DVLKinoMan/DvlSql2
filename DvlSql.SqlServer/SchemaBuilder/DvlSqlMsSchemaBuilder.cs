@@ -11,7 +11,7 @@ public partial class DvlSqlMs : ISchemaExecutable
     public ITableCreator CreateTable(string tableName) => new DvlSqlTableCreator(tableName, this);
 
     public ITableCreator CreateTable(string associatedName, string tableName) =>
-        new DvlSqlTableCreator(tableName, this);
+        new DvlSqlTableCreator(tableName, associatedName, this);
 
     public ITableAlterer AlterTable(string tableName) => new DvlSqlTableAlterer(tableName, this);
 
