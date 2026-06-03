@@ -15,7 +15,7 @@ public partial class DvlSqlMs : ISchemaExecutable
 
     public ITableAlterer AlterTable(string tableName) => new DvlSqlTableAlterer(tableName, this);
 
-    public ITableAlterer AlterTable(string associatedName, string tableName) => new DvlSqlTableAlterer(tableName, this);
+    public ITableAlterer AlterTable(string associatedName, string tableName) => new DvlSqlTableAlterer(tableName, associatedName, this);
 
     public ISchemaExecutable RenameTable(string oldTableName, string newTableName)
     {
@@ -25,7 +25,7 @@ public partial class DvlSqlMs : ISchemaExecutable
 
     public ISchemaExecutable RenameTable(string associatedName, string oldTableName, string newTableName)
     {
-        _renameTableExpression = new(oldTableName, newTableName);
+        _renameTableExpression = new(oldTableName, newTableName, associatedName);
         return this;
     }
 
@@ -37,7 +37,7 @@ public partial class DvlSqlMs : ISchemaExecutable
 
     public ISchemaExecutable DropTable(string associatedName, string tableName)
     {
-        _dropTableExpression = new(tableName);
+        _dropTableExpression = new(tableName, associatedName);
         return this;
     }
 

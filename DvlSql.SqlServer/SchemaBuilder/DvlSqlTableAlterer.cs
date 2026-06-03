@@ -116,7 +116,7 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
         string referenceColumn)
     {
         var columnExp = GetColumnExpression();
-        columnExp.ForeignKeyExpression = new(name, columnExp.Name, referenceTable, referenceColumn);
+        columnExp.ForeignKeyExpression = new(name, associatedTableName, columnExp.Name, referenceTable, associatedColumnName, referenceColumn);
         return this;
     }
 
