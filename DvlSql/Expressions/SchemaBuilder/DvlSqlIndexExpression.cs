@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlIndexExpression(string name, string tableName, string columnName, bool isUnique = false)
+public class DvlSqlIndexExpression(string name, string tableName, string columnName, bool isUnique = false) : DvlSqlSchemaExpression
 {
     public string Name { get; } = name;
     public string TableName { get; } = tableName;

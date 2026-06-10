@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlForeignKeyExpression
+public class DvlSqlForeignKeyExpression : DvlSqlSchemaExpression
 {
     public DvlSqlForeignKeyExpression(string name, string columnName, string referenceTableName, string referenceColumnName)
     {

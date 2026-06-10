@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlUniqueExpression(string name, string columnName)
+public class DvlSqlUniqueExpression(string name, string columnName) : DvlSqlSchemaExpression
 {
     public string Name { get; } = name;
     public string ColumnName { get; } = columnName;

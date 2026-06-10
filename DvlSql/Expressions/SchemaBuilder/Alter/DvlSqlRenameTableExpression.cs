@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlRenameTableExpression(string oldTableName, string newTableName, string? associatedName = null)
+public class DvlSqlRenameTableExpression(string oldTableName, string newTableName, string? associatedName = null) : DvlSqlSchemaExpression
 {
     public string OldTableName { get; } = oldTableName;
     public string NewTableName { get; } = newTableName;

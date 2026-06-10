@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlDefaultExpression(string name, string value, string columnName)
+public class DvlSqlDefaultExpression(string name, string value, string columnName) : DvlSqlSchemaExpression
 {
     public string Name { get; } = name;
     public string Value { get; } = value;

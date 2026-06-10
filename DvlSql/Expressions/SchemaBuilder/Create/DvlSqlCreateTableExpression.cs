@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlCreateTableExpression(string name, string? associatedName = null)
+public class DvlSqlCreateTableExpression(string name, string? associatedName = null) : DvlSqlSchemaExpression
 {
     public string Name { get; } = name;
     public string? AssociatedName { get; set; } = associatedName;
