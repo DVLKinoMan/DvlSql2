@@ -5,6 +5,30 @@ namespace DvlSql.Extensions;
 public static class SchemaHelpers
 {
     public static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
+        this IEnumerable<DvlSqlCreateTableExpression> firstTableExpressions,
+        IEnumerable<DvlSqlCreateTableExpression> secondTableExpressions)
+    {
+        var tablesFromFirstDict = firstTableExpressions.ToDictionary(c => c.AssociatedName ?? c.Name);
+        var tablesFromSecondDict = secondTableExpressions.ToDictionary(c => c.AssociatedName ?? c.Name);
+
+        foreach (var (associatedName, firstTableExpression) in tablesFromFirstDict)
+        {
+            if (tablesFromSecondDict.TryGetValue(associatedName, out var secondTableExpression))
+                foreach (var migrationExpression in GenerateMigrationExpressions(firstTableExpression, secondTableExpression))
+                    yield return migrationExpression;
+            else yield return new DvlSqlDropTableExpression(firstTableExpression.Name, firstTableExpression.AssociatedName);
+        }
+        
+        foreach (var (associatedName, secondTableExpression) in tablesFromSecondDict)
+        {
+            if (tablesFromFirstDict.ContainsKey(associatedName))
+                continue;
+
+            yield return secondTableExpression;
+        }
+    }
+
+    public static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlCreateTableExpression firstTableExpression,
         DvlSqlCreateTableExpression secondTableExpression)
     {
@@ -22,7 +46,7 @@ public static class SchemaHelpers
             if (columnsFromSecondTableDict.TryGetValue(associatedName, out var secondColumnExpression))
                 foreach (var migrationExpression in GenerateMigrationExpressions(firstColumnExpression, secondColumnExpression))
                     yield return migrationExpression;
-            else yield return firstColumnExpression;
+            else yield return new DvlSqlDropTableExpression(firstColumnExpression.Name, firstColumnExpression.AssociatedName);
         }
 
         foreach (var (associatedName, secondColumnExpression) in columnsFromSecondTableDict)
