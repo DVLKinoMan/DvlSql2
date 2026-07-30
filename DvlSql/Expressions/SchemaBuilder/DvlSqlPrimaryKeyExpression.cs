@@ -20,4 +20,6 @@ public class DvlSqlPrimaryKeyExpression(string name, string columnName) : DvlSql
     {
         return !(left == right);
     }
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlRenameColumnExpression(string oldColumnName, string newColumnName, string? associatedName = null) : DvlSqlSchemaExpression
+public class DvlSqlRenameColumnExpression(string oldColumnName, string newColumnName, string? associatedName = null)
 {
     public string OldColumnName { get; } = oldColumnName;
     public string NewColumnName { get; } = newColumnName;

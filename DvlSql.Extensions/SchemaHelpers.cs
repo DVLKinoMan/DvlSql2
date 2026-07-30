@@ -44,8 +44,18 @@ public static class SchemaHelpers
         foreach (var (associatedName, firstColumnExpression) in columnsFromFirstTableDict)
         {
             if (columnsFromSecondTableDict.TryGetValue(associatedName, out var secondColumnExpression))
-                foreach (var migrationExpression in GenerateMigrationExpressions(firstColumnExpression, secondColumnExpression))
+            {
+                DvlSqlAlterTableExpression? alterTableExpression = null;
+                
+                foreach (var migrationExpression in GenerateMigrationExpressions(firstColumnExpression, secondColumnExpression, GetAlterTableExpression))
                     yield return migrationExpression;
+                
+                if (alterTableExpression is not null)
+                    yield return alterTableExpression;
+                
+                DvlSqlAlterTableExpression GetAlterTableExpression()
+                    => alterTableExpression ??= new DvlSqlAlterTableExpression(secondTableExpression.Name, secondTableExpression.AssociatedName);
+            }
             else yield return new DvlSqlDropTableExpression(firstColumnExpression.Name, firstColumnExpression.AssociatedName);
         }
 
@@ -60,14 +70,17 @@ public static class SchemaHelpers
 
     private static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlCreateColumnExpression columnExpression,
-        DvlSqlCreateColumnExpression modifiedColumnExpression)
+        DvlSqlCreateColumnExpression modifiedColumnExpression,
+        Func<DvlSqlAlterTableExpression> alterTableExpressionFunc)
     {
         if (columnExpression.AssociatedName != modifiedColumnExpression.AssociatedName)
             yield break;
 
         DvlSqlAlterColumnExpression? alterColumnExpression = null;
         if (columnExpression.Name != modifiedColumnExpression.Name)
-            yield return new DvlSqlRenameColumnExpression(columnExpression.Name, modifiedColumnExpression.Name, columnExpression.AssociatedName);
+            alterTableExpressionFunc().RenameColumnExpression = new DvlSqlRenameColumnExpression(columnExpression.Name,
+                modifiedColumnExpression.Name,
+                columnExpression.AssociatedName);
 
         if (columnExpression.Type != modifiedColumnExpression.Type ||
             columnExpression.Size != modifiedColumnExpression.Size ||
@@ -85,24 +98,27 @@ public static class SchemaHelpers
                 };
 
         foreach (var expression in GenerateMigrationExpressions(columnExpression.PrimaryKeyExpression, modifiedColumnExpression.PrimaryKeyExpression,
-                     GetAlterColumnExpression))
+                     GetAlterColumnExpression, alterTableExpressionFunc))
             yield return expression;
 
         foreach (var expression in GenerateMigrationExpressions(columnExpression.DefaultExpression, modifiedColumnExpression.DefaultExpression,
-                     GetAlterColumnExpression))
+                     GetAlterColumnExpression, alterTableExpressionFunc))
             yield return expression;
 
         foreach (var expression in GenerateMigrationExpressions(columnExpression.ForeignKeyExpression, modifiedColumnExpression.ForeignKeyExpression,
-                     GetAlterColumnExpression))
+                     GetAlterColumnExpression, alterTableExpressionFunc))
             yield return expression;
 
         foreach (var expression in GenerateMigrationExpressions(columnExpression.IndexExpression, modifiedColumnExpression.IndexExpression,
-                     GetAlterColumnExpression))
+                     GetAlterColumnExpression, alterTableExpressionFunc))
             yield return expression;
 
         foreach (var expression in GenerateMigrationExpressions(columnExpression.UniqueExpression, modifiedColumnExpression.UniqueExpression,
-                     GetAlterColumnExpression))
+                     GetAlterColumnExpression, alterTableExpressionFunc))
             yield return expression;
+        
+        if(alterColumnExpression is not null)
+            yield return alterColumnExpression;
 
         DvlSqlAlterColumnExpression GetAlterColumnExpression()
             => alterColumnExpression ??= new DvlSqlAlterColumnExpression(modifiedColumnExpression.Name, columnExpression.AssociatedName);
@@ -111,7 +127,8 @@ public static class SchemaHelpers
     private static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlPrimaryKeyExpression? primaryExpression,
         DvlSqlPrimaryKeyExpression? modifiedPrimaryExpression,
-        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc)
+        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc,
+        Func<DvlSqlAlterTableExpression> alterTableExpressionFunc)
     {
         if (primaryExpression is null && modifiedPrimaryExpression is null)
             yield break;
@@ -124,13 +141,13 @@ public static class SchemaHelpers
 
         if (modifiedPrimaryExpression is null)
         {
-            yield return new DvlSqlDropConstraintExpression(primaryExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(primaryExpression.Name);
             yield break;
         }
 
         if (primaryExpression != modifiedPrimaryExpression)
         {
-            yield return new DvlSqlDropConstraintExpression(primaryExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(primaryExpression.Name);
             alterColumnExpressionFunc().PrimaryKeyExpression = modifiedPrimaryExpression;
         }
     }
@@ -138,7 +155,8 @@ public static class SchemaHelpers
     private static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlForeignKeyExpression? foreignKeyExpression,
         DvlSqlForeignKeyExpression? modifiedForeignKeyExpression,
-        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc)
+        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc,
+        Func<DvlSqlAlterTableExpression> alterTableExpressionFunc)
     {
         if (foreignKeyExpression is null && modifiedForeignKeyExpression is null)
             yield break;
@@ -151,13 +169,13 @@ public static class SchemaHelpers
 
         if (modifiedForeignKeyExpression is null)
         {
-            yield return new DvlSqlDropConstraintExpression(foreignKeyExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(foreignKeyExpression.Name);
             yield break;
         }
 
         if (foreignKeyExpression != modifiedForeignKeyExpression)
         {
-            yield return new DvlSqlDropConstraintExpression(foreignKeyExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(foreignKeyExpression.Name);
             alterColumnExpressionFunc().ForeignKeyExpression = modifiedForeignKeyExpression;
         }
     }
@@ -165,7 +183,8 @@ public static class SchemaHelpers
     private static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlDefaultExpression? defaultExpression,
         DvlSqlDefaultExpression? modifiedDefaultExpression,
-        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc)
+        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc,
+        Func<DvlSqlAlterTableExpression> alterTableExpressionFunc)
     {
         if (defaultExpression is null && modifiedDefaultExpression is null)
             yield break;
@@ -178,13 +197,13 @@ public static class SchemaHelpers
 
         if (modifiedDefaultExpression is null)
         {
-            yield return new DvlSqlDropConstraintExpression(defaultExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(defaultExpression.Name);
             yield break;
         }
 
         if (defaultExpression != modifiedDefaultExpression)
         {
-            yield return new DvlSqlDropConstraintExpression(defaultExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(defaultExpression.Name);
             alterColumnExpressionFunc().DefaultExpression = modifiedDefaultExpression;
         }
     }
@@ -192,7 +211,8 @@ public static class SchemaHelpers
     private static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlIndexExpression? indexExpression,
         DvlSqlIndexExpression? modifiedIndexExpression,
-        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc)
+        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc,
+        Func<DvlSqlAlterTableExpression> alterTableExpressionFunc)
     {
         if (indexExpression == null && modifiedIndexExpression == null)
             yield break;
@@ -205,13 +225,13 @@ public static class SchemaHelpers
 
         if (modifiedIndexExpression == null)
         {
-            yield return new DvlSqlDropConstraintExpression(indexExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(indexExpression.Name);
             yield break;
         }
 
         if (indexExpression != modifiedIndexExpression)
         {
-            yield return new DvlSqlDropConstraintExpression(indexExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(indexExpression.Name);
             alterColumnExpressionFunc().IndexExpression = modifiedIndexExpression;
         }
     }
@@ -219,7 +239,8 @@ public static class SchemaHelpers
     private static IEnumerable<DvlSqlSchemaExpression> GenerateMigrationExpressions(
         this DvlSqlUniqueExpression? uniqueExpression,
         DvlSqlUniqueExpression? modifiedUniqueExpression,
-        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc)
+        Func<DvlSqlAlterColumnExpression> alterColumnExpressionFunc,
+        Func<DvlSqlAlterTableExpression> alterTableExpressionFunc)
     {
         if (uniqueExpression == null && modifiedUniqueExpression == null)
             yield break;
@@ -232,13 +253,13 @@ public static class SchemaHelpers
 
         if (modifiedUniqueExpression == null)
         {
-            yield return new DvlSqlDropConstraintExpression(uniqueExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(uniqueExpression.Name);
             yield break;
         }
 
         if (uniqueExpression != modifiedUniqueExpression)
         {
-            yield return new DvlSqlDropConstraintExpression(uniqueExpression.Name);
+            alterTableExpressionFunc().DropConstraintExpression = new DvlSqlDropConstraintExpression(uniqueExpression.Name);
             alterColumnExpressionFunc().UniqueExpression = modifiedUniqueExpression;
         }
     }

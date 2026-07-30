@@ -18,4 +18,6 @@ public class DvlSqlAlterColumnExpression(string name, string? associatedName = n
     public override bool Equals(object? obj) => obj is DvlSqlAlterColumnExpression other && this == other;
 
     public override int GetHashCode() => HashCode.Combine(Name, AssociatedName);
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

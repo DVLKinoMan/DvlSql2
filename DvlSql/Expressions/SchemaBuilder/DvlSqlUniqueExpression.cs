@@ -20,4 +20,6 @@ public class DvlSqlUniqueExpression(string name, string columnName) : DvlSqlSche
     {
         return !(left == right);
     }
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

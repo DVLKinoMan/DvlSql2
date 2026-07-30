@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlDropConstraintExpression(string name, string? associatedName = null) : DvlSqlSchemaExpression
+public class DvlSqlDropConstraintExpression(string name, string? associatedName = null)
 {
     public string Name { get; } = name;
     public string? AssociatedName { get; set; } = associatedName;

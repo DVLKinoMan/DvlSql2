@@ -21,4 +21,6 @@ public class DvlSqlRenameTableExpression(string oldTableName, string newTableNam
     public override bool Equals(object? obj) => obj is DvlSqlRenameTableExpression other && this == other;
 
     public override int GetHashCode() => HashCode.Combine(OldTableName, NewTableName, AssociatedName);
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

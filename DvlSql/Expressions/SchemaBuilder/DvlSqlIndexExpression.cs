@@ -24,4 +24,6 @@ public class DvlSqlIndexExpression(string name, string tableName, string columnN
     {
         return !(left == right);
     }
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

@@ -48,4 +48,6 @@ public class DvlSqlForeignKeyExpression : DvlSqlSchemaExpression
     {
         return !(left == right);
     }
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

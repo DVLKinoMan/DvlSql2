@@ -20,4 +20,6 @@ public class DvlSqlDropTableExpression(string name, string? associatedName = nul
     public override bool Equals(object? obj) => obj is DvlSqlDropTableExpression other && this == other;
 
     public override int GetHashCode() => HashCode.Combine(Name, AssociatedName);
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

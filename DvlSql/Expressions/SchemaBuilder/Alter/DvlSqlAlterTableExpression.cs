@@ -26,4 +26,6 @@ public class DvlSqlAlterTableExpression(string name, string? associatedName = nu
     public override bool Equals(object? obj) => obj is DvlSqlAlterTableExpression other && this == other;
 
     public override int GetHashCode() => HashCode.Combine(Name, AssociatedName);
+    
+    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

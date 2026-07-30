@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlDropIndexExpression(string name, string? associatedName = null) : DvlSqlSchemaExpression
+public class DvlSqlDropIndexExpression(string name, string? associatedName = null)
 {
     public string Name { get; } = name;
     public string? AssociatedName { get; set; } = associatedName;
