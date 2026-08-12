@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlForeignKeyExpression : DvlSqlSchemaExpression
+public class DvlSqlForeignKeyExpression
 {
     public DvlSqlForeignKeyExpression(string name, string columnName, string referenceTableName, string referenceColumnName)
     {
@@ -48,6 +48,4 @@ public class DvlSqlForeignKeyExpression : DvlSqlSchemaExpression
     {
         return !(left == right);
     }
-    
-    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

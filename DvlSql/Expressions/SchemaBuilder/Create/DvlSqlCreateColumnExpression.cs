@@ -21,5 +21,4 @@ public class DvlSqlCreateColumnExpression(string name, string? associatedName = 
     public override bool Equals(object? obj) => obj is DvlSqlCreateColumnExpression other && this == other;
 
     public override int GetHashCode() => HashCode.Combine(Name, AssociatedName);
-    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

@@ -2,7 +2,7 @@
 
 namespace DvlSql.Expressions;
 
-public abstract class DvlSqlColumnExpression(string name, string? associatedName = null) : DvlSqlSchemaExpression
+public abstract class DvlSqlColumnExpression(string name, string? associatedName = null)
 {
     public string Name { get; } = name;
     public string? AssociatedName { get; set; } = associatedName;

@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Exts;
 using NUnit.Framework;
 
 namespace DvlSql.SqlServer.Tests.Tables;
@@ -20,7 +21,6 @@ public class Alter
         await _sql1
             .AlterTable("TestTable")
             .WithColumn(Guid.NewGuid().ToString()).AsType(SqlDbType.Int).AsNotNull()
-            .AsDefault(Guid.NewGuid().ToString(), "0")
             .ExecuteAsync();
     }
 

@@ -185,6 +185,12 @@ public class DvlSqlTableAlterer : ITableAlterer, IColumnAlterer
         return this;
     }
 
+    public ISchemaExecutable DropConstraint(string associatedName, string name)
+    {
+        _alterTableExpression.DropConstraintExpression = new(name, associatedName);
+        return this;
+    }
+
     public ISchemaExecutable RenameColumn(string oldColumnName, string newColumnName)
     {
         _alterTableExpression.RenameColumnExpression = new(oldColumnName, newColumnName);

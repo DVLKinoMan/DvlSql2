@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlUniqueExpression(string name, string columnName) : DvlSqlSchemaExpression
+public class DvlSqlUniqueExpression(string name, string columnName)
 {
     public string Name { get; } = name;
     public string ColumnName { get; } = columnName;
@@ -20,6 +20,4 @@ public class DvlSqlUniqueExpression(string name, string columnName) : DvlSqlSche
     {
         return !(left == right);
     }
-    
-    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }

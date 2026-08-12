@@ -11,6 +11,7 @@ public interface ITableAlterer
     ISchemaExecutable DropIndex(string name);
     ISchemaExecutable DropIndex(string associatedName, string name);
     ISchemaExecutable DropConstraint(string name);
+    ISchemaExecutable DropConstraint(string associatedName, string name);
     ISchemaExecutable RenameColumn(string oldColumnName, string newColumnName);
     ISchemaExecutable RenameColumn(string associatedName, string oldColumnName, string newColumnName);
 }

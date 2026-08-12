@@ -1,6 +1,6 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlIndexExpression(string name, string tableName, string columnName, bool isUnique = false) : DvlSqlSchemaExpression
+public class DvlSqlIndexExpression(string name, string tableName, string columnName, bool isUnique = false)
 {
     public string Name { get; } = name;
     public string TableName { get; } = tableName;
@@ -24,6 +24,4 @@ public class DvlSqlIndexExpression(string name, string tableName, string columnN
     {
         return !(left == right);
     }
-    
-    public override void Visit(ICodeBuilder visitor) => visitor.Visit(this);
 }
