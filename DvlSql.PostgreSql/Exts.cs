@@ -46,45 +46,43 @@ internal static class Exts
         => type switch
         {
             SqlDbType.BigInt => "BIGINT",
-            SqlDbType.Binary => $"BINARY({size ?? 1})",
-            SqlDbType.Bit => "BIT",
+            SqlDbType.Binary => "BYTEA",
+            SqlDbType.Bit => "BOOLEAN",
             SqlDbType.Char => $"CHAR({size ?? 1})",
             SqlDbType.Date => "DATE",
-            SqlDbType.DateTime => "DATETIME",
+            SqlDbType.DateTime => "TIMESTAMP",
             SqlDbType.DateTime2 => precision.HasValue
-                ? $"DATETIME2({precision})"
-                : "DATETIME2",
+                ? $"TIMESTAMP({precision})"
+                : "TIMESTAMP",
             SqlDbType.DateTimeOffset => precision.HasValue
-                ? $"DATETIMEOFFSET({precision})"
-                : "DATETIMEOFFSET",
-            SqlDbType.Decimal => $"DECIMAL({precision ?? 18},{scale ?? 0})",
-            SqlDbType.Float => "FLOAT",
-            SqlDbType.Image => "IMAGE",
-            SqlDbType.Int => "INT",
+                ? $"TIMESTAMPTZ({precision})"
+                : "TIMESTAMPTZ",
+            SqlDbType.Decimal => $"NUMERIC({precision ?? 18},{scale ?? 0})",
+            SqlDbType.Float => "DOUBLE PRECISION",
+            SqlDbType.Image => "BYTEA",
+            SqlDbType.Int => "INTEGER",
             SqlDbType.Money => "MONEY",
-            SqlDbType.NChar => $"NCHAR({size ?? 1})",
-            SqlDbType.NText => "NTEXT",
+            SqlDbType.NChar => $"CHAR({size ?? 1})",
+            SqlDbType.NText => "TEXT",
             SqlDbType.NVarChar => size == -1
-                ? "NVARCHAR(MAX)"
-                : $"NVARCHAR({size ?? 1})",
+                ? "TEXT"
+                : $"VARCHAR({size ?? 1})",
             SqlDbType.Real => "REAL",
-            SqlDbType.SmallDateTime => "SMALLDATETIME",
+            SqlDbType.SmallDateTime => "TIMESTAMP",
             SqlDbType.SmallInt => "SMALLINT",
-            SqlDbType.SmallMoney => "SMALLMONEY",
+            SqlDbType.SmallMoney => "NUMERIC(10,4)",
             SqlDbType.Text => "TEXT",
             SqlDbType.Time => precision.HasValue
                 ? $"TIME({precision})"
                 : "TIME",
-            SqlDbType.Timestamp => "ROWVERSION",
-            SqlDbType.TinyInt => "TINYINT",
-            SqlDbType.UniqueIdentifier => "UNIQUEIDENTIFIER",
-            SqlDbType.VarBinary => size == -1
-                ? "VARBINARY(MAX)"
-                : $"VARBINARY({size ?? 1})",
+            SqlDbType.Timestamp => "BYTEA",
+            SqlDbType.TinyInt => "SMALLINT",
+            SqlDbType.UniqueIdentifier => "UUID",
+            SqlDbType.VarBinary => "BYTEA",
             SqlDbType.VarChar => size == -1
-                ? "VARCHAR(MAX)"
+                ? "TEXT"
                 : $"VARCHAR({size ?? 1})",
-            SqlDbType.Variant => "SQL_VARIANT",
+            SqlDbType.Variant => "TEXT",
             SqlDbType.Xml => "XML",
             _ => throw new NotSupportedException($"Unsupported SqlDbType: {type}")
         };
