@@ -64,7 +64,11 @@ public static class SchemaHelpers
             if (columnsFromFirstTableDict.ContainsKey(associatedName))
                 continue;
 
-            yield return secondColumnExpression;
+            yield return 
+                new DvlSqlAlterTableExpression(secondTableExpression.Name, secondTableExpression.AssociatedName)
+                {
+                    AddColumnExpression = secondColumnExpression
+                };
         }
     }
 
@@ -118,7 +122,7 @@ public static class SchemaHelpers
             yield return expression;
         
         if(alterColumnExpression is not null)
-            yield return alterColumnExpression;
+            alterTableExpressionFunc().AlterColumnExpression = alterColumnExpression;
 
         DvlSqlAlterColumnExpression GetAlterColumnExpression()
             => alterColumnExpression ??= new DvlSqlAlterColumnExpression(modifiedColumnExpression.Name, columnExpression.AssociatedName);

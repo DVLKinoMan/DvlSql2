@@ -23,9 +23,9 @@ public partial class DvlPostgreSql : IDvlSql
         _logger = logger;
     }
 
-    private IDvlSqlConnection GetConnection() =>
+    private IDvlSqlConnection GetConnection() => 
         _dvlSqlConnection ?? new DvlSqlConnection(_options, _logger);
-
+    
     public ISelector From(string tableName, bool withNoLock = false)
     {
         var fromExpression = FromExp(tableName, withNoLock: withNoLock);
@@ -48,19 +48,18 @@ public partial class DvlPostgreSql : IDvlSql
         return new SqlDeletable(fromExpression, GetConnection());
     }
 
-    public IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression) =>
-        new SqlDeletable(fromExpression, GetConnection());
+    public IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression) => new SqlDeletable(fromExpression, GetConnection());
 
     public IUpdateSetable Update(string tableName)
     {
-        var updateExpression = new DvlSqlUpdateExpression(new(tableName));
+        var updateExpression = new DvlSqlUpdateExpression(new (tableName));
 
         return new SqlUpdateable(GetConnection(), updateExpression);
     }
-    
+
     public IUpdateSetable Update(DvlSqlFromWithTableExpression fromExpression) =>
         new SqlUpdateable(GetConnection(), new (fromExpression));
-
+    
     public IDvlSql SetConnection(IDvlSqlConnection connection)
     {
         _dvlSqlConnection = connection;
@@ -79,7 +78,7 @@ public partial class DvlPostgreSql : IDvlSql
         }
         catch (Exception exc)
         {
-            var list = new List<Exception> { exc };
+            var list = new List<Exception> {exc};
             try
             {
                 await _dvlSqlConnection!.RollbackAsync(token);
@@ -101,7 +100,6 @@ public partial class DvlPostgreSql : IDvlSql
     public async Task RollbackAsync(CancellationToken token = default) =>
         await _dvlSqlConnection!.RollbackAsync(token);
 
-   
     public async Task<IDvlSql> BeginTransactionAsync(CancellationToken token = default)
     {
         var conn = GetConnection().GetClone();
@@ -122,6 +120,14 @@ public partial class DvlPostgreSql : IDvlSql
         await conn.BeginTransactionAsync(token);
         await action(this);
         await CommitAsync(token);
+    }
+
+    public async Task ExecuteSqlAsync(string sql, int? timeout = null, CancellationToken token = default)
+    {
+        var conn = GetConnection().GetClone();
+        await conn.ConnectAsync(
+            dvlCommand => dvlCommand.ExecuteNonQueryAsync(timeout, token),
+            sql);
     }
 
     public DvlSqlTableDeclarationExpression DeclareTable(string name) => new(name);

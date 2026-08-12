@@ -1,7 +1,7 @@
 using System.Text;
 using DvlSql.Expressions;
 
-namespace DvlSql.SqlServer;
+namespace DvlSql.PostgreSql;
 
 public class DvlSqlMsCodeBuilder : ICodeBuilder
 {
