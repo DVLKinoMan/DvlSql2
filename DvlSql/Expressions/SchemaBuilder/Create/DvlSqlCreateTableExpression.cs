@@ -1,8 +1,9 @@
 ﻿namespace DvlSql.Expressions;
 
-public class DvlSqlCreateTableExpression(string name, string? associatedName = null) : DvlSqlSchemaExpression
+public class DvlSqlCreateTableExpression(string name, string? associatedName = null, string? schemaName = null) : DvlSqlSchemaExpression
 {
     public string Name { get; } = name;
+    public string? SchemaName { get; set; } = schemaName;
     public string? AssociatedName { get; set; } = associatedName;
     public List<DvlSqlCreateColumnExpression> ColumnExpressions = [];
 

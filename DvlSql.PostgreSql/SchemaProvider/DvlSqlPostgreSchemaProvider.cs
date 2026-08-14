@@ -1,4 +1,6 @@
 using System.Data;
+using System.Data.Common;
+using System.Runtime.ExceptionServices;
 using DvlSql.Expressions;
 using static DvlSql.ExpressionHelpers;
 
@@ -68,18 +70,22 @@ partial class DvlPostgreSql
             // Fallback for anything unmapped
             _ => SqlDbType.NVarChar
         };
-    
-    public async Task<List<DvlSqlCreateTableExpression>> GetAllTablesAsync() 
+
+    public async Task<List<DvlSqlCreateTableExpression>> GetAllTablesAsync()
     {
+        var columnsDict = new Dictionary<(string SchemaName, string TableName, string ColumnName), DvlSqlCreateColumnExpression>();
         var result = (await From(AsExp("information_schema.tables", "t"))
-                    .Join(AsExp("information_schema.columns", "c"), "t.table_name", "c.table_name")
-                    .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
-                          ConstantExpCol("t.table_type") == ConstantExpCol("BASE TABLE") &
-                          NotInExp("t.table_schema", "pg_catalog", "information_schema"))
-                    .Select("t.table_name", "c.column_name", "c.data_type", "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable",
-                        "c.column_default")
-                    .ToListAsync(row =>
-                        (TableName: row["table_name"].ToString()!, 
+                .Join(AsExp("information_schema.columns", "c"), "t.table_name", "c.table_name")
+                .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
+                       ConstantExpCol("t.table_type") == ConstantExpCol("BASE TABLE") &
+                       NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type", "c.character_maximum_length", "c.numeric_precision",
+                    "c.numeric_scale", "c.is_nullable",
+                    "c.column_default")
+                .ToListAsync(row =>
+                    (
+                        SchemaName: row["table_schema"].ToString()!,
+                        TableName: row["table_name"].ToString()!,
                         Column: new DvlSqlCreateColumnExpression(row["column_name"].ToString()!)
                         {
                             Type = GetSqlDbType(row["data_type"].ToString()!),
@@ -87,16 +93,24 @@ partial class DvlPostgreSql
                             Precision = row.IsDBNull(row.GetOrdinal("numeric_precision")) ? null : row.GetByte(row.GetOrdinal("numeric_precision")),
                             Scale = row.IsDBNull(row.GetOrdinal("numeric_scale")) ? null : row.GetByte(row.GetOrdinal("numeric_scale")),
                             IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
-                            DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default")) ? null : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
+                            DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
+                                ? null
+                                : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
                         })
-                    )
                 )
-                .GroupBy(c => c.TableName)
-                .Select(g => new DvlSqlCreateTableExpression(g.Key)
+            )
+            .GroupBy(c => (c.TableName, c.SchemaName))
+            .Select(g =>
+            {
+                foreach (var c in g)
+                    columnsDict[(c.SchemaName, c.TableName, c.Column.Name)] = c.Column;
+
+                return new DvlSqlCreateTableExpression(g.Key.TableName, schemaName: g.Key.SchemaName)
                 {
                     ColumnExpressions = g.Select(c => c.Column).ToList()
-                })
-                .ToList();
+                };
+            })
+            .ToList();
 
         (await From(AsExp("pg_index", "ix"))
                 .Join(AsExp("pg_class", "i"), "i.oid", "ix.indexrelid")
@@ -105,37 +119,75 @@ partial class DvlPostgreSql
                 .Join(AsExp("pg_attribute", "a"), ConstantExpCol("a.attrelid") == ConstantExpCol("tb.oid")
                                                   & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")))
                 // Primary key constraint (if this index backs a PK)
-                .LeftJoin(AsExp("pg_constraint", "pk_con"), "pk_con.conrelid", "tb.oid")
-                .Join(AsExp("pg_attribute", "a"), "a.attrelid", "tb.oid")
-                .Join(AsExp("pg_attribute", "a"), "a.attrelid", "tb.oid")
-                .Where(ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")) &
-                       ConstantExpCol("t.table_type") == "BASE TABLE" &
-                       NotInExp("t.table_schema", "pg_catalog", "information_schema"))
-                .Select("t.table_name", "c.column_name", "c.data_type", "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable",
-                    "c.column_default")
+                .LeftJoin(AsExp("pg_constraint", "pk_con"), ConstantExpCol("pk_con.conrelid") == ConstantExpCol("tb.oid")
+                                                            & ConstantExpCol("pk_con.contype") == "p"
+                                                            & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("pk_con.conkey")))
+                // Unique constraint (if this index backs a named UNIQUE constraint, not just a bare unique index)
+                .LeftJoin(AsExp("pg_constraint", "uq_con"), ConstantExpCol("uq_con.conrelid") == ConstantExpCol("tb.oid")
+                                                            & ConstantExpCol("uq_con.contype") == "u"
+                                                            & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("uq_con.conkey")))
+                // Foreign key constraint where this column is the referencing (child) column
+                .LeftJoin(AsExp("pg_constraint", "fk_con"), ConstantExpCol("fk_con.conrelid") == ConstantExpCol("tb.oid")
+                                                            & ConstantExpCol("fk_con.contype") == "f"
+                                                            & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("fk_con.conkey")))
+                .LeftJoin(AsExp("fk_con", "ref_tbl"), "ref_tbl.oid", "fk_con.confrelid")
+                .LeftJoin(AsExp("pg_attribute", "ref_col"), ConstantExpCol("ref_col.attrelid") == ConstantExpCol("fk_con.confrelid")
+                                                            & ConstantExpCol("ref_col.attnum") ==
+                                                            ConstantExpCol("fk_con.confkey[array_position(fk_con.conkey, a.attnum)]"))
+                .Where(InExp("tb.relname", result.Select(r => ConstantExp(r.Name)).ToArray()) &
+                       InExp("n.nspname", result.Select(r => ConstantExp(r.SchemaName)).ToArray()))
+                .Select(
+                    AsExp("tb.relname", "table_name"),
+                    AsExp("tn.nspname", "schema_name"),
+                    AsExp("a.attname", "column_name"),
+                    AsExp(StringAggExp(DistinctExp("i.relname"), ", "), "index_names"),
+                    AsExp(BoolOrExp(DistinctExp("ix.indisunique")), "is_unique"),
+                    AsExp(BoolOrExp(DistinctExp("ix.indisprimary")), "is_primary_key"),
+                    AsExp(StringAggExp(DistinctExp("pk_con.conname"), ", "), "primary_key_constraint_names"),
+                    AsExp(StringAggExp(DistinctExp("uq_con.conname"), ", "), "unique_constraint_names"),
+                    AsExp(StringAggExp(DistinctExp("fk_con.conname"), ", "), "foreign_key_constraint_names"),
+                    AsExp(StringAggExp(DistinctExp("ref_tbl.relname"), ", "), "foreign_key_reference_tables"),
+                    AsExp(StringAggExp(DistinctExp("ref_col.attname"), ", "), "foreign_key_reference_columns")
+                )
                 .ToListAsync(row =>
-                    (TableName: row["table_name"].ToString()!, 
-                        Column: new DvlSqlCreateColumnExpression(row["column_name"].ToString()!)
-                        {
-                            Type = GetSqlDbType(row["data_type"].ToString()!),
-                            Size = row.IsDBNull(row.GetOrdinal("character_maximum_length")) ? null : row.GetInt32(row.GetOrdinal("character_maximum_length")),
-                            Precision = row.IsDBNull(row.GetOrdinal("numeric_precision")) ? null : row.GetByte(row.GetOrdinal("numeric_precision")),
-                            Scale = row.IsDBNull(row.GetOrdinal("numeric_scale")) ? null : row.GetByte(row.GetOrdinal("numeric_scale")),
-                            IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
-                            DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default")) ? null : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
-                        })
+                    (
+                        TableName: row["table_name"].ToString()!,
+                        SchemaName: row["schema_name"].ToString()!,
+                        ColumnName: row["column_name"].ToString()!,
+                        IndexNames: row["index_names"].ToString()!,
+                        IsUnique: row.GetBoolean(row.GetOrdinal("is_unique")),
+                        IsPrimaryKey: row.GetBoolean(row.GetOrdinal("is_primary_key")),
+                        PrimaryKeyConstraintNames: row["primary_key_constraint_names"].ToString()!,
+                        UniqueConstraintNames: row["unique_constraint_names"].ToString()!,
+                        ForeignKeyConstraintNames: row["foreign_key_constraint_names"].ToString()!,
+                        ForeignKeyReferenceTables: row["foreign_key_reference_tables"].ToString()!,
+                        ForeignKeyReferenceColumns: row["foreign_key_reference_columns"].ToString()!
+                    )
                 )
             )
-            .GroupBy(c => c.TableName)
-            .Select(g => new DvlSqlCreateTableExpression(g.Key)
+            .GroupBy(c => (c.TableName, c.SchemaName, c.ColumnName))
+            .ToList()
+            .ForEach(g =>
             {
-                ColumnExpressions = g.Select(c => c.Column).ToList()
-            })
-            .ToList();
+                var value = g.First();
+                var column = columnsDict[(g.Key.SchemaName, g.Key.TableName, g.Key.ColumnName)];
+
+                if (value.IsPrimaryKey)
+                    column.PrimaryKeyExpression = new(value.PrimaryKeyConstraintNames, column.Name);
+
+                if (value.IndexNames is { Length: > 0 })
+                    column.IndexExpression = new(value.IndexNames, g.Key.TableName, column.Name, value.IsUnique);
+                else if (value.IsUnique)
+                    column.UniqueExpression = new(value.UniqueConstraintNames, column.Name);
+
+                if (value.ForeignKeyConstraintNames is { Length: > 0 })
+                    column.ForeignKeyExpression = new(value.ForeignKeyConstraintNames, column.Name, value.ForeignKeyReferenceTables,
+                        value.ForeignKeyReferenceColumns);
+            });
 
         return result;
     }
-       
+
 
     public Task<DvlSqlCreateTableExpression?> GetTableAsync(string tableName)
     {
