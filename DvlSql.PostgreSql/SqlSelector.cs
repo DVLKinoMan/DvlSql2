@@ -172,9 +172,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
     }
 
 
-    public ISelector Join(string tableName, DvlSqlComparisonExpression compExpression)
+    public ISelector Join(string tableName, DvlSqlBinaryExpression binaryExpression)
     {
-        CurrFullSelectExpression.Join?.Add(InnerJoinExp(tableName, compExpression));
+        CurrFullSelectExpression.Join?.Add(InnerJoinExp(tableName, binaryExpression));
         return this;
     }
 
@@ -185,9 +185,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
+    public ISelector FullJoin(string tableName, DvlSqlBinaryExpression binaryExpression)
     {
-        CurrFullSelectExpression.Join?.Add(FullJoinExp(tableName, compExpression));
+        CurrFullSelectExpression.Join?.Add(FullJoinExp(tableName, binaryExpression));
         return this;
     }
 
@@ -198,9 +198,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector LeftJoin(string tableName, DvlSqlComparisonExpression compExpression)
+    public ISelector LeftJoin(string tableName, DvlSqlBinaryExpression binaryExpression)
     {
-        CurrFullSelectExpression.Join?.Add(LeftJoinExp(tableName, compExpression));
+        CurrFullSelectExpression.Join?.Add(LeftJoinExp(tableName, binaryExpression));
         return this;
     }
 
@@ -211,9 +211,9 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
         return this;
     }
 
-    public ISelector RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
+    public ISelector RightJoin(string tableName, DvlSqlBinaryExpression binaryExpression)
     {
-        CurrFullSelectExpression.Join?.Add(RightJoinExp(tableName, compExpression));
+        CurrFullSelectExpression.Join?.Add(RightJoinExp(tableName, binaryExpression));
         return this;
     }
 

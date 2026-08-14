@@ -6,10 +6,10 @@ public abstract class DvlSqlJoinExpression(string tableName) : DvlSqlExpression
     public new bool IsRoot { get; init; } = true;
 }
 
-public abstract class DvlSqlGeneralJoinExpression(string tableName, DvlSqlComparisonExpression comp)
+public abstract class DvlSqlGeneralJoinExpression(string tableName, DvlSqlBinaryExpression comp)
     : DvlSqlJoinExpression(tableName)
 {
-    public DvlSqlComparisonExpression ComparisonExpression { get; set; } = comp;
+    public DvlSqlBinaryExpression BinaryExpression { get; set; } = comp;
 
     public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 }
@@ -58,8 +58,8 @@ public class DvlSqlRightJoinExpression<T>(string tableName, DvlSqlComparisonExpr
     }
 }
 
-public class DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression)
-    : DvlSqlGeneralJoinExpression(tableName, comparisonExpression)
+public class DvlSqlFullJoinExpression(string tableName, DvlSqlBinaryExpression binaryExpression)
+    : DvlSqlGeneralJoinExpression(tableName, binaryExpression)
 {
     public override DvlSqlExpression Clone()
     {
@@ -67,8 +67,8 @@ public class DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpressi
     }
 }
 
-public class DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression)
-    : DvlSqlGeneralJoinExpression(tableName, comparisonExpression)
+public class DvlSqlInnerJoinExpression(string tableName, DvlSqlBinaryExpression binaryExpression)
+    : DvlSqlGeneralJoinExpression(tableName, binaryExpression)
 {
     public override DvlSqlExpression Clone()
     {
@@ -76,8 +76,8 @@ public class DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpress
     }
 }
 
-public class DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression)
-    : DvlSqlGeneralJoinExpression(tableName, comparisonExpression)
+public class DvlSqlLeftJoinExpression(string tableName, DvlSqlBinaryExpression binaryExpression)
+    : DvlSqlGeneralJoinExpression(tableName, binaryExpression)
 {
     public override DvlSqlExpression Clone()
     {
@@ -85,8 +85,8 @@ public class DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpressi
     }
 }
 
-public class DvlSqlRightJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression)
-    : DvlSqlGeneralJoinExpression(tableName, comparisonExpression)
+public class DvlSqlRightJoinExpression(string tableName, DvlSqlBinaryExpression binaryExpression)
+    : DvlSqlGeneralJoinExpression(tableName, binaryExpression)
 {
     public override DvlSqlExpression Clone()
     {

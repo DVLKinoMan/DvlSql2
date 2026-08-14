@@ -288,20 +288,20 @@ public static class ExpressionHelpers
             ConstantExpCol(firstTableMatchingCol) == ConstantExpCol(secondTableMatchingCol));
 
     public static DvlSqlInnerJoinExpression InnerJoinExp(string tableName,
-        DvlSqlComparisonExpression comparisonExpression)
-        => new(tableName, comparisonExpression);
+        DvlSqlBinaryExpression binaryExpression)
+        => new(tableName, binaryExpression);
 
     public static DvlSqlLeftJoinExpression LeftJoinExp(string tableName,
-        DvlSqlComparisonExpression comparisonExpression)
-        => new(tableName, comparisonExpression);
+        DvlSqlBinaryExpression binaryExpression)
+        => new(tableName, binaryExpression);
 
     public static DvlSqlRightJoinExpression RightJoinExp(string tableName,
-        DvlSqlComparisonExpression comparisonExpression)
-        => new(tableName, comparisonExpression);
+        DvlSqlBinaryExpression binaryExpression)
+        => new(tableName, binaryExpression);
 
     public static DvlSqlFullJoinExpression FullJoinExp(string tableName,
-        DvlSqlComparisonExpression comparisonExpression)
-        => new(tableName, comparisonExpression);
+        DvlSqlBinaryExpression binaryExpression)
+        => new(tableName, binaryExpression);
 
     public static DvlSqlBinaryEmptyExpression EmptyExp() => new();
 

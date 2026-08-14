@@ -162,7 +162,7 @@ internal class DvlSqlCommandBuilder(StringBuilder command) : ISqlExpressionVisit
         _command.Append(expression.IsRoot
             ? $"{Environment.NewLine}{joinCommand} {expression.TableName} ON "
             : $" {joinCommand} {expression.TableName} ON ");
-        expression.ComparisonExpression.Accept(this);
+        expression.BinaryExpression.Accept(this);
     }
 
     public void Visit(DvlSqlOrderByExpression expression)
