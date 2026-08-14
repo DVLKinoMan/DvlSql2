@@ -4,7 +4,7 @@ using DvlSql.Expressions;
 
 namespace DvlSql;
 
-public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable, ITableBuilder
+public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable, ITableBuilder, ISchemaProvider
 {
     IInsertDeleteExecutable<int> InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T: ITuple;
 

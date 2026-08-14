@@ -17,6 +17,12 @@ public static class ExpressionHelpers
 
     public static string AsExp(string field, string @as) =>
         @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
+    
+    public static string BoolOrExp(string field) => $"BOOL_OR({field})";
+    
+    public static string StringAggExp(string field, string seperator) => $"STRING_AGG({field}, '{seperator}')";
+    
+    public static string AnyExp(string param) => $"Any({param})";
 
     public static string CoalesceExp<T>(string param, T change) =>
         typeof(T) == typeof(string) || typeof(T) == typeof(Guid) || typeof(T) == typeof(Guid?)

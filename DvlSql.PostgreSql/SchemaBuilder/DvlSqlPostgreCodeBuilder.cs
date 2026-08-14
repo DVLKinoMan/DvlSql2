@@ -3,12 +3,12 @@ using DvlSql.Expressions;
 
 namespace DvlSql.PostgreSql;
 
-public class DvlSqlMsCodeBuilder : ICodeBuilder
+public class DvlSqlPostgreCodeBuilder : ICodeBuilder
 {
     private StringBuilder _builder = new();
     private readonly string _dvlSqlVariableName;
 
-    public DvlSqlMsCodeBuilder(string? variableName = null)
+    public DvlSqlPostgreCodeBuilder(string? variableName = null)
     {
         _dvlSqlVariableName = variableName ?? "_sql";
     }
