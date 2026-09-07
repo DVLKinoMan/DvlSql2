@@ -38,4 +38,9 @@
         <PackagePath>\</PackagePath>
       </None>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DvlSql.Extensions\DvlSql.Extensions.csproj" />
+      <ProjectReference Include="..\DvlSql\DvlSql.csproj" />
+    </ItemGroup>
 </Project>
