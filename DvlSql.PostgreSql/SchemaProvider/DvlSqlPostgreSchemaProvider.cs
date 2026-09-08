@@ -79,7 +79,7 @@ partial class DvlPostgreSql
                 .Join("information_schema.columns as c", "t.table_name", "c.table_name")
                 .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
                        ConstantExpCol("t.table_type") == "BASE TABLE" &
-                       NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                       NotInExp("t.table_schema",  "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
                     "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
                 .ToListAsync(row =>
@@ -98,9 +98,9 @@ partial class DvlPostgreSql
                                 ? null
                                 : row.GetByte(row.GetOrdinal("numeric_scale")),
                             IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
-                            DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
-                                ? null
-                                : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
+                            // DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
+                            //     ? null
+                            //     : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
                         })
                 );
 
@@ -265,7 +265,7 @@ partial class DvlPostgreSql
         string schemaName = await From("information_schema.tables as t")
             .Where(ConstantExpCol("t.table_name") == tableName &
                    ConstantExpCol("t.table_type") == "BASE TABLE" &
-                   NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                   NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
             .Select("t.table_schema")
             .FirstAsync<string>();
 
@@ -285,7 +285,7 @@ partial class DvlPostgreSql
                 .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
                        ConstantExpCol("t.table_type") == "BASE TABLE" &
                        ConstantExpCol("t.table_name") == tableName &
-                       NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                       NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
                     "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
                 .ToListAsync(row =>

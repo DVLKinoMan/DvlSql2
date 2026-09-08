@@ -6,57 +6,64 @@ namespace DvlSql.SqlServer;
 
 partial class DvlSqlMs
 {
-    private static SqlDbType GetSqlDbType(string dataType) =>
+   private static SqlDbType GetSqlDbType(string dataType) =>
         dataType.Trim().ToLowerInvariant() switch
         {
-            // Exact numerics
-            "bit" => SqlDbType.Bit,
-            "tinyint" => SqlDbType.TinyInt,
+            // Numeric types
             "smallint" => SqlDbType.SmallInt,
-            "int" => SqlDbType.Int,
+            "integer" => SqlDbType.Int,
             "bigint" => SqlDbType.BigInt,
             "decimal" => SqlDbType.Decimal,
             "numeric" => SqlDbType.Decimal,
-            "smallmoney" => SqlDbType.SmallMoney,
+            "real" => SqlDbType.Real,
+            "double precision" => SqlDbType.Float,
+            "smallserial" => SqlDbType.SmallInt,
+            "serial" => SqlDbType.Int,
+            "bigserial" => SqlDbType.BigInt,
             "money" => SqlDbType.Money,
 
-            // Approximate numerics
-            "real" => SqlDbType.Real,
-            "float" => SqlDbType.Float,
+            // Character types
+            "character varying" => SqlDbType.NVarChar,
+            "varchar" => SqlDbType.NVarChar,
+            "character" => SqlDbType.NChar,
+            "char" => SqlDbType.NChar,
+            "text" => SqlDbType.NVarChar, // map to NVarChar(MAX) at column-build time
+            "citext" => SqlDbType.NVarChar,
 
-            // Date/time
+            // Boolean
+            "boolean" => SqlDbType.Bit,
+
+            // Date/time types
             "date" => SqlDbType.Date,
-            "time" => SqlDbType.Time,
-            "datetime" => SqlDbType.DateTime,
-            "datetime2" => SqlDbType.DateTime2,
-            "smalldatetime" => SqlDbType.SmallDateTime,
-            "datetimeoffset" => SqlDbType.DateTimeOffset,
+            "time without time zone" => SqlDbType.Time,
+            "time with time zone" => SqlDbType.Time,
+            "timestamp without time zone" => SqlDbType.DateTime2,
+            "timestamp with time zone" => SqlDbType.DateTimeOffset,
+            "interval" => SqlDbType.NVarChar, // no direct SQL Server equivalent
 
-            // Character strings
-            "char" => SqlDbType.Char,
-            "varchar" => SqlDbType.VarChar,
-            "text" => SqlDbType.Text,
+            // Binary
+            "bytea" => SqlDbType.VarBinary,
 
-            // Unicode character strings
-            "nchar" => SqlDbType.NChar,
-            "nvarchar" => SqlDbType.NVarChar,
-            "ntext" => SqlDbType.NText,
+            // UUID
+            "uuid" => SqlDbType.UniqueIdentifier,
 
-            // Binary strings
-            "binary" => SqlDbType.Binary,
-            "varbinary" => SqlDbType.VarBinary,
-            "image" => SqlDbType.Image,
+            // JSON types
+            "json" => SqlDbType.NVarChar,
+            "jsonb" => SqlDbType.NVarChar,
 
-            // Other types
-            "uniqueidentifier" => SqlDbType.UniqueIdentifier,
+            // XML
             "xml" => SqlDbType.Xml,
-            "sql_variant" => SqlDbType.Variant,
-            "timestamp" => SqlDbType.Timestamp, // "rowversion" alias
-            "rowversion" => SqlDbType.Timestamp,
-            "geography" => SqlDbType.Udt,
-            "geometry" => SqlDbType.Udt,
-            "hierarchyid" => SqlDbType.Udt,
-            "structured" => SqlDbType.Structured, // table-valued params
+
+            // Network address types (no native SQL Server equivalent)
+            "inet" => SqlDbType.NVarChar,
+            "cidr" => SqlDbType.NVarChar,
+            "macaddr" => SqlDbType.NVarChar,
+
+            // Arrays and other Postgres-specific types (no direct equivalent)
+            "array" => SqlDbType.NVarChar,
+            "hstore" => SqlDbType.NVarChar,
+            "point" => SqlDbType.NVarChar,
+            "geometry" => SqlDbType.NVarChar,
 
             // Fallback for anything unmapped
             _ => SqlDbType.NVarChar
@@ -70,7 +77,7 @@ partial class DvlSqlMs
                 .Join("information_schema.columns as c", "t.table_name", "c.table_name")
                 .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
                        ConstantExpCol("t.table_type") == "BASE TABLE" &
-                       NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                       NotInExp("t.table_schema",  "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
                     "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
                 .ToListAsync(row =>
@@ -89,9 +96,9 @@ partial class DvlSqlMs
                                 ? null
                                 : row.GetByte(row.GetOrdinal("numeric_scale")),
                             IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
-                            DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
-                                ? null
-                                : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
+                            // DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
+                            //     ? null
+                            //     : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
                         })
                 );
 
@@ -243,7 +250,6 @@ partial class DvlSqlMs
 
         return ordered;
     }
-
     
     public async Task<DvlSqlCreateTableExpression?> GetTableAsync(string tableName)
     {
@@ -257,7 +263,7 @@ partial class DvlSqlMs
         string schemaName = await From("information_schema.tables as t")
             .Where(ConstantExpCol("t.table_name") == tableName &
                    ConstantExpCol("t.table_type") == "BASE TABLE" &
-                   NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                   NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
             .Select("t.table_schema")
             .FirstAsync<string>();
 
@@ -277,7 +283,7 @@ partial class DvlSqlMs
                 .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
                        ConstantExpCol("t.table_type") == "BASE TABLE" &
                        ConstantExpCol("t.table_name") == tableName &
-                       NotInExp("t.table_schema", "pg_catalog", "information_schema"))
+                       NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
                     "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
                 .ToListAsync(row =>
