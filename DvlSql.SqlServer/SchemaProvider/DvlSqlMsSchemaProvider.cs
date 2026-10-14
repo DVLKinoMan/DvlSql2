@@ -88,13 +88,13 @@ partial class DvlSqlMs
                             Type = GetSqlDbType(row["data_type"].ToString()!),
                             Size = row.IsDBNull(row.GetOrdinal("character_maximum_length"))
                                 ? null
-                                : row.GetInt32(row.GetOrdinal("character_maximum_length")),
+                                : Convert.ToInt32(row["character_maximum_length"]), //todo it can be -1 on nvarchar(max). will it work?
                             Precision = row.IsDBNull(row.GetOrdinal("numeric_precision"))
                                 ? null
-                                : row.GetByte(row.GetOrdinal("numeric_precision")),
+                                : Convert.ToByte(row["numeric_precision"]),
                             Scale = row.IsDBNull(row.GetOrdinal("numeric_scale"))
                                 ? null
-                                : row.GetByte(row.GetOrdinal("numeric_scale")),
+                                : Convert.ToByte(row["numeric_scale"]),
                             IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
                             // DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
                             //     ? null
@@ -120,60 +120,55 @@ partial class DvlSqlMs
         var dependencyMap = new Dictionary<string, HashSet<string>>();
 
         // 3. Get index / primary key / unique / foreign key metadata for every column
-        (await From(AsExp("pg_index", "ix"))
-                .Join(AsExp("pg_class", "i"), "i.oid", "ix.indexrelid")
-                .Join(AsExp("pg_class", "tb"), "tb.oid", "ix.indrelid")
-                .Join(AsExp("pg_namespace", "n"), "n.oid", "tb.relnamespace")
-                .Join(AsExp("pg_attribute", "a"), ConstantExpCol("a.attrelid") == ConstantExpCol("tb.oid")
-                                                  & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")))
-                // Primary key constraint (if this index backs a PK)
-                .LeftJoin(AsExp("pg_constraint", "pk_con"),
-                    ConstantExpCol("pk_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("pk_con.contype") == "p"
-                    & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("pk_con.conkey")))
-                // Unique constraint (if this index backs a named UNIQUE constraint, not just a bare unique index)
-                .LeftJoin(AsExp("pg_constraint", "uq_con"),
-                    ConstantExpCol("uq_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("uq_con.contype") == "u"
-                    & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("uq_con.conkey")))
-                // Foreign key constraint where this column is the referencing (child) column
-                .LeftJoin(AsExp("pg_constraint", "fk_con"),
-                    ConstantExpCol("fk_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("fk_con.contype") == "f"
-                    & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("fk_con.conkey")))
-                .LeftJoin(AsExp("fk_con", "ref_tbl"), "ref_tbl.oid", "fk_con.confrelid")
-                .LeftJoin(AsExp("pg_attribute", "ref_col"),
-                    ConstantExpCol("ref_col.attrelid") == ConstantExpCol("fk_con.confrelid")
-                    & ConstantExpCol("ref_col.attnum") ==
-                    ConstantExpCol("fk_con.confkey[array_position(fk_con.conkey, a.attnum)]"))
-                .Where(InExp("tb.relname", result.Select(r => ConstantExp(r.Name)).ToArray()) &
-                       InExp("n.nspname", result.Select(r => ConstantExp(r.SchemaName)).ToArray()))
+        (await From(AsExp("sys.tables", "t"))
+                .Join(AsExp("sys.schemas", "s"), "s.schema_id", "t.schema_id")
+                .Join(AsExp("sys.columns", "c"), "c.object_id", "t.object_id")
+
+                // Index columns (key columns only, not INCLUDE columns)
+                .LeftJoin(AsExp("sys.index_columns", "ic"),
+                    ConstantExpCol("ic.object_id") == ConstantExpCol("t.object_id")
+                    & ConstantExpCol("ic.column_id") == ConstantExpCol("c.column_id")
+                    & ConstantExpCol("ic.is_included_column") == ConstantExpCol("0"))
+                .LeftJoin(AsExp("sys.indexes", "i"),
+                    ConstantExpCol("i.object_id") == ConstantExpCol("ic.object_id")
+                    & ConstantExpCol("i.index_id") == ConstantExpCol("ic.index_id"))
+
+                // Foreign keys where this column is the referencing (child) column
+                .LeftJoin(AsExp("sys.foreign_key_columns", "fkc"),
+                    ConstantExpCol("fkc.parent_object_id") == ConstantExpCol("t.object_id")
+                    & ConstantExpCol("fkc.parent_column_id") == ConstantExpCol("c.column_id"))
+                .LeftJoin(AsExp("sys.foreign_keys", "fk"), "fk.object_id", "fkc.constraint_object_id")
+                .LeftJoin(AsExp("sys.tables", "ref_tbl"), "ref_tbl.object_id", "fkc.referenced_object_id")
+                .LeftJoin(AsExp("sys.columns", "ref_col"),
+                    ConstantExpCol("ref_col.object_id") == ConstantExpCol("fkc.referenced_object_id")
+                    & ConstantExpCol("ref_col.column_id") == ConstantExpCol("fkc.referenced_column_id"))
+
+                .Where(InExp("t.name", result.Select(r => ConstantExp(r.Name)).ToArray()) &
+                       InExp("s.name", result.Select(r => ConstantExp(r.SchemaName)).ToArray()))
                 .Select(
-                    AsExp("tb.relname", "table_name"),
-                    AsExp("n.nspname", "schema_name"),
-                    AsExp("a.attname", "column_name"),
-                    AsExp(StringAggExp(DistinctExp("i.relname"), ", "), "index_names"),
-                    AsExp(BoolOrExp(DistinctExp("ix.indisunique")), "is_unique"),
-                    AsExp(BoolOrExp(DistinctExp("ix.indisprimary")), "is_primary_key"),
-                    AsExp(StringAggExp(DistinctExp("pk_con.conname"), ", "), "primary_key_constraint_names"),
-                    AsExp(StringAggExp(DistinctExp("uq_con.conname"), ", "), "unique_constraint_names"),
-                    AsExp(StringAggExp(DistinctExp("fk_con.conname"), ", "), "foreign_key_constraint_names"),
-                    AsExp(StringAggExp(DistinctExp("ref_tbl.relname"), ", "), "foreign_key_reference_tables"),
-                    AsExp(StringAggExp(DistinctExp("ref_col.attname"), ", "), "foreign_key_reference_columns")
+                    AsExp("t.name", "table_name"),
+                    AsExp("s.name", "schema_name"),
+                    AsExp("c.name", "column_name"),
+                    AsExp("i.name", "index_name"),
+                    AsExp("i.is_unique", "is_unique"),
+                    AsExp("i.is_primary_key", "is_primary_key"),
+                    AsExp("i.is_unique_constraint", "is_unique_constraint"),
+                    AsExp("fk.name", "fk_name"),
+                    AsExp("ref_tbl.name", "ref_table"),
+                    AsExp("ref_col.name", "ref_column")
                 )
                 .ToListAsync(row =>
                     (
                         TableName: row["table_name"].ToString()!,
                         SchemaName: row["schema_name"].ToString()!,
                         ColumnName: row["column_name"].ToString()!,
-                        IndexNames: row["index_names"].ToString()!,
-                        IsUnique: row.GetBoolean(row.GetOrdinal("is_unique")),
-                        IsPrimaryKey: row.GetBoolean(row.GetOrdinal("is_primary_key")),
-                        PrimaryKeyConstraintNames: row["primary_key_constraint_names"].ToString()!,
-                        UniqueConstraintNames: row["unique_constraint_names"].ToString()!,
-                        ForeignKeyConstraintNames: row["foreign_key_constraint_names"].ToString()!,
-                        ForeignKeyReferenceTables: row["foreign_key_reference_tables"].ToString()!,
-                        ForeignKeyReferenceColumns: row["foreign_key_reference_columns"].ToString()!
+                        IndexName: GetStr(row, "index_name"),
+                        IsUnique: GetBool(row, "is_unique"),
+                        IsPrimaryKey: GetBool(row, "is_primary_key"),
+                        IsUniqueConstraint: GetBool(row, "is_unique_constraint"),
+                        FkName: GetStr(row, "fk_name"),
+                        RefTable: GetStr(row, "ref_table"),
+                        RefColumn: GetStr(row, "ref_column")
                     )
                 )
             )
@@ -181,41 +176,69 @@ partial class DvlSqlMs
             .ToList()
             .ForEach(g =>
             {
-                var value = g.First();
-                var column = columnsDict[(g.Key.SchemaName, g.Key.TableName, g.Key.ColumnName)];
+                if (!columnsDict.TryGetValue((g.Key.SchemaName, g.Key.TableName, g.Key.ColumnName), out var column))
+                    return;
 
-                if (value.IsPrimaryKey)
-                    column.PrimaryKeyExpression = new(value.PrimaryKeyConstraintNames, column.Name);
+                // The join with indexes and FKs produces duplicate rows, so dedupe here
+                var indexNames = string.Join(", ", g.Where(x => !string.IsNullOrEmpty(x.IndexName))
+                    .Select(x => x.IndexName!).Distinct());
+                var pkNames = string.Join(", ", g.Where(x => x.IsPrimaryKey && x.IndexName != null)
+                    .Select(x => x.IndexName!).Distinct());
+                var uqNames = string.Join(", ", g.Where(x => x.IsUniqueConstraint && x.IndexName != null)
+                    .Select(x => x.IndexName!).Distinct());
 
-                if (value.IndexNames is { Length: > 0 })
-                    column.IndexExpression = new(value.IndexNames, g.Key.TableName, column.Name, value.IsUnique);
-                else if (value.IsUnique)
-                    column.UniqueExpression = new(value.UniqueConstraintNames, column.Name);
+                var isPrimaryKey = g.Any(x => x.IsPrimaryKey);
+                var isUnique = g.Any(x => x.IsUnique);
 
-                if (value.ForeignKeyConstraintNames is { Length: > 0 })
+                // Distinct on the whole triple keeps names, tables and columns aligned
+                var fks = g.Where(x => x.FkName != null)
+                    .Select(x => (Name: x.FkName!, Table: x.RefTable!, Column: x.RefColumn!))
+                    .Distinct()
+                    .ToList();
+
+                if (isPrimaryKey)
+                    column.PrimaryKeyExpression = new(pkNames, column.Name);
+
+                if (indexNames.Length > 0)
+                    column.IndexExpression = new(indexNames, g.Key.TableName, column.Name, isUnique);
+                else if (isUnique)
+                    column.UniqueExpression = new(uqNames, column.Name);
+
+                if (fks.Count > 0)
                 {
-                    column.ForeignKeyExpression = new(value.ForeignKeyConstraintNames, column.Name,
-                        value.ForeignKeyReferenceTables, value.ForeignKeyReferenceColumns);
+                    column.ForeignKeyExpression = new(
+                        string.Join(", ", fks.Select(f => f.Name).Distinct()),
+                        column.Name,
+                        string.Join(", ", fks.Select(f => f.Table)),
+                        string.Join(", ", fks.Select(f => f.Column)));
 
                     // Record dependency edges (table -> tables it references) for ordering step
-                    if (value.ForeignKeyReferenceTables is { Length: > 0 })
+                    if (!dependencyMap.TryGetValue(g.Key.TableName, out var deps))
                     {
-                        if (!dependencyMap.TryGetValue(g.Key.TableName, out var deps))
-                        {
-                            deps = new HashSet<string>();
-                            dependencyMap[g.Key.TableName] = deps;
-                        }
-
-                        foreach (var refTable in value.ForeignKeyReferenceTables.Split(", ",
-                                     StringSplitOptions.RemoveEmptyEntries))
-                            if (refTable != g.Key.TableName)
-                                deps.Add(refTable);
+                        deps = new HashSet<string>();
+                        dependencyMap[g.Key.TableName] = deps;
                     }
+
+                    foreach (var refTable in fks.Select(f => f.Table).Distinct())
+                        if (refTable != g.Key.TableName)
+                            deps.Add(refTable);
                 }
             });
 
         // 4. Order tables: independent (no unresolved FK deps) tables first, dependent tables after
         return TopologicalSortTables(result, dependencyMap);
+    }
+    
+    private static string? GetStr(IDataReader r, string col)
+    {
+        var i = r.GetOrdinal(col);
+        return r.IsDBNull(i) ? null : r.GetString(i);
+    }
+
+    private static bool GetBool(IDataReader r, string col)
+    {
+        var i = r.GetOrdinal(col);
+        return !r.IsDBNull(i) && r.GetBoolean(i);
     }
 
     private static List<DvlSqlCreateTableExpression> TopologicalSortTables(
