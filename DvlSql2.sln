@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.PostgreSql", "DvlSql
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.PostgreSql.Console", "DvlSql.PostgreSql.Console\DvlSql.PostgreSql.Console.csproj", "{97932F66-F48E-4403-9734-8496A95FB797}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.PostgreSql.Tests", "DvlSql.PostgreSql.Tests\DvlSql.PostgreSql.Tests.csproj", "{8CD5ED0B-C6FA-421E-A844-712598161C68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvlSql.Extensions.PogtgreSql", "DvlSql.Extensions.PogtgreSql\DvlSql.Extensions.PogtgreSql.csproj", "{04ABF53D-88B9-4E6E-BFF9-C719C2E26156}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,13 @@ Global
 		{97932F66-F48E-4403-9734-8496A95FB797}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97932F66-F48E-4403-9734-8496A95FB797}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97932F66-F48E-4403-9734-8496A95FB797}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CD5ED0B-C6FA-421E-A844-712598161C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD5ED0B-C6FA-421E-A844-712598161C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD5ED0B-C6FA-421E-A844-712598161C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD5ED0B-C6FA-421E-A844-712598161C68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04ABF53D-88B9-4E6E-BFF9-C719C2E26156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04ABF53D-88B9-4E6E-BFF9-C719C2E26156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04ABF53D-88B9-4E6E-BFF9-C719C2E26156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04ABF53D-88B9-4E6E-BFF9-C719C2E26156}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
