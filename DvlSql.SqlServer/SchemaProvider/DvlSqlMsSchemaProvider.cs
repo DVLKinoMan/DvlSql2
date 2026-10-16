@@ -6,66 +6,43 @@ namespace DvlSql.SqlServer;
 
 partial class DvlSqlMs
 {
-   private static SqlDbType GetSqlDbType(string dataType) =>
+    private static SqlDbType GetSqlDbType(string dataType) =>
         dataType.Trim().ToLowerInvariant() switch
         {
-            // Numeric types
+            "tinyint" => SqlDbType.TinyInt,
             "smallint" => SqlDbType.SmallInt,
-            "integer" => SqlDbType.Int,
+            "int" => SqlDbType.Int,
             "bigint" => SqlDbType.BigInt,
-            "decimal" => SqlDbType.Decimal,
-            "numeric" => SqlDbType.Decimal,
+            "decimal" or "numeric" => SqlDbType.Decimal,
             "real" => SqlDbType.Real,
-            "double precision" => SqlDbType.Float,
-            "smallserial" => SqlDbType.SmallInt,
-            "serial" => SqlDbType.Int,
-            "bigserial" => SqlDbType.BigInt,
+            "float" => SqlDbType.Float,
             "money" => SqlDbType.Money,
+            "smallmoney" => SqlDbType.SmallMoney,
+            "bit" => SqlDbType.Bit,
 
-            // Character types
-            "character varying" => SqlDbType.NVarChar,
-            "varchar" => SqlDbType.NVarChar,
-            "character" => SqlDbType.NChar,
-            "char" => SqlDbType.NChar,
-            "text" => SqlDbType.NVarChar, // map to NVarChar(MAX) at column-build time
-            "citext" => SqlDbType.NVarChar,
+            "char" => SqlDbType.Char,
+            "varchar" => SqlDbType.VarChar,
+            "text" => SqlDbType.Text,
+            "nchar" => SqlDbType.NChar,
+            "nvarchar" => SqlDbType.NVarChar,
+            "ntext" => SqlDbType.NText,
 
-            // Boolean
-            "boolean" => SqlDbType.Bit,
-
-            // Date/time types
             "date" => SqlDbType.Date,
-            "time without time zone" => SqlDbType.Time,
-            "time with time zone" => SqlDbType.Time,
-            "timestamp without time zone" => SqlDbType.DateTime2,
-            "timestamp with time zone" => SqlDbType.DateTimeOffset,
-            "interval" => SqlDbType.NVarChar, // no direct SQL Server equivalent
+            "time" => SqlDbType.Time,
+            "smalldatetime" => SqlDbType.SmallDateTime,
+            "datetime" => SqlDbType.DateTime,
+            "datetime2" => SqlDbType.DateTime2,
+            "datetimeoffset" => SqlDbType.DateTimeOffset,
 
-            // Binary
-            "bytea" => SqlDbType.VarBinary,
+            "binary" => SqlDbType.Binary,
+            "varbinary" => SqlDbType.VarBinary,
+            "image" => SqlDbType.Image,
+            "timestamp" or "rowversion" => SqlDbType.Timestamp,
 
-            // UUID
-            "uuid" => SqlDbType.UniqueIdentifier,
-
-            // JSON types
-            "json" => SqlDbType.NVarChar,
-            "jsonb" => SqlDbType.NVarChar,
-
-            // XML
+            "uniqueidentifier" => SqlDbType.UniqueIdentifier,
             "xml" => SqlDbType.Xml,
+            "sql_variant" => SqlDbType.Variant,
 
-            // Network address types (no native SQL Server equivalent)
-            "inet" => SqlDbType.NVarChar,
-            "cidr" => SqlDbType.NVarChar,
-            "macaddr" => SqlDbType.NVarChar,
-
-            // Arrays and other Postgres-specific types (no direct equivalent)
-            "array" => SqlDbType.NVarChar,
-            "hstore" => SqlDbType.NVarChar,
-            "point" => SqlDbType.NVarChar,
-            "geometry" => SqlDbType.NVarChar,
-
-            // Fallback for anything unmapped
             _ => SqlDbType.NVarChar
         };
 

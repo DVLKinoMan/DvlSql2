@@ -80,7 +80,7 @@ partial class DvlPostgreSql
                 .Join("information_schema.columns as c", "t.table_name", "c.table_name")
                 .Where(ConstantExpCol("t.table_schema") == ConstantExpCol("c.table_schema") &
                        ConstantExpCol("t.table_type") == "BASE TABLE" &
-                       NotInExp("t.table_schema",  "\'pg_catalog\'", "\'information_schema\'"))
+                       NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
                     "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
                 .ToListAsync(row =>
@@ -127,37 +127,39 @@ partial class DvlPostgreSql
                 .Join(AsExp("pg_class", "i"), "i.oid", "ix.indexrelid")
                 .Join(AsExp("pg_class", "tb"), "tb.oid", "ix.indrelid")
                 .Join(AsExp("pg_namespace", "n"), "n.oid", "tb.relnamespace")
-                .Join(AsExp("pg_attribute", "a"), ConstantExpCol("a.attrelid") == ConstantExpCol("tb.oid")
-                                                  & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")))
-                // Primary key constraint (if this index backs a PK)
+                .Join(AsExp("pg_attribute", "a"),
+                    ConstantExpCol("a.attrelid") == ConstantExpCol("tb.oid")
+                    & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")))
                 .LeftJoin(AsExp("pg_constraint", "pk_con"),
                     ConstantExpCol("pk_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("pk_con.contype") == "p"
+                    & ConstantExpCol("pk_con.contype") == ConstantExpCol("'p'")
                     & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("pk_con.conkey")))
-                // Unique constraint (if this index backs a named UNIQUE constraint, not just a bare unique index)
                 .LeftJoin(AsExp("pg_constraint", "uq_con"),
                     ConstantExpCol("uq_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("uq_con.contype") == "u"
+                    & ConstantExpCol("uq_con.contype") == ConstantExpCol("'u'")
                     & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("uq_con.conkey")))
-                // Foreign key constraint where this column is the referencing (child) column
                 .LeftJoin(AsExp("pg_constraint", "fk_con"),
                     ConstantExpCol("fk_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("fk_con.contype") == "f"
+                    & ConstantExpCol("fk_con.contype") == ConstantExpCol("'f'")
                     & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("fk_con.conkey")))
-                .LeftJoin(AsExp("fk_con", "ref_tbl"), "ref_tbl.oid", "fk_con.confrelid")
+                // FIX 2: was AsExp("fk_con", "ref_tbl") -> must be the pg_class table
+                .LeftJoin(AsExp("pg_class", "ref_tbl"), "ref_tbl.oid", "fk_con.confrelid")
                 .LeftJoin(AsExp("pg_attribute", "ref_col"),
                     ConstantExpCol("ref_col.attrelid") == ConstantExpCol("fk_con.confrelid")
                     & ConstantExpCol("ref_col.attnum") ==
                     ConstantExpCol("fk_con.confkey[array_position(fk_con.conkey, a.attnum)]"))
                 .Where(InExp("tb.relname", result.Select(r => ConstantExp(r.Name)).ToArray()) &
                        InExp("n.nspname", result.Select(r => ConstantExp(r.SchemaName)).ToArray()))
+                // FIX 3: SQL-level GROUP BY (adapt to your builder's API)
+                .GroupBy("tb.relname", "n.nspname", "a.attname")
                 .Select(
                     AsExp("tb.relname", "table_name"),
                     AsExp("n.nspname", "schema_name"),
                     AsExp("a.attname", "column_name"),
                     AsExp(StringAggExp(DistinctExp("i.relname"), ", "), "index_names"),
-                    AsExp(BoolOrExp(DistinctExp("ix.indisunique")), "is_unique"),
-                    AsExp(BoolOrExp(DistinctExp("ix.indisprimary")), "is_primary_key"),
+                    // FIX 4: no DISTINCT inside BOOL_OR
+                    AsExp(BoolOrExp("ix.indisunique"), "is_unique"),
+                    AsExp(BoolOrExp("ix.indisprimary"), "is_primary_key"),
                     AsExp(StringAggExp(DistinctExp("pk_con.conname"), ", "), "primary_key_constraint_names"),
                     AsExp(StringAggExp(DistinctExp("uq_con.conname"), ", "), "unique_constraint_names"),
                     AsExp(StringAggExp(DistinctExp("fk_con.conname"), ", "), "foreign_key_constraint_names"),
@@ -321,34 +323,40 @@ partial class DvlPostgreSql
                 .Join(AsExp("pg_class", "i"), "i.oid", "ix.indexrelid")
                 .Join(AsExp("pg_class", "tb"), "tb.oid", "ix.indrelid")
                 .Join(AsExp("pg_namespace", "n"), "n.oid", "tb.relnamespace")
-                .Join(AsExp("pg_attribute", "a"), ConstantExpCol("a.attrelid") == ConstantExpCol("tb.oid")
-                                                  & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")))
+                .Join(AsExp("pg_attribute", "a"),
+                    ConstantExpCol("a.attrelid") == ConstantExpCol("tb.oid")
+                    & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("ix.indkey")))
                 .LeftJoin(AsExp("pg_constraint", "pk_con"),
                     ConstantExpCol("pk_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("pk_con.contype") == "p"
+                    & ConstantExpCol("pk_con.contype") == ConstantExpCol("'p'")
                     & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("pk_con.conkey")))
                 .LeftJoin(AsExp("pg_constraint", "uq_con"),
                     ConstantExpCol("uq_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("uq_con.contype") == "u"
+                    & ConstantExpCol("uq_con.contype") == ConstantExpCol("'u'")
                     & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("uq_con.conkey")))
                 .LeftJoin(AsExp("pg_constraint", "fk_con"),
                     ConstantExpCol("fk_con.conrelid") == ConstantExpCol("tb.oid")
-                    & ConstantExpCol("fk_con.contype") == "f"
+                    & ConstantExpCol("fk_con.contype") == ConstantExpCol("'f'")
                     & ConstantExpCol("a.attnum") == ConstantExpCol(AnyExp("fk_con.conkey")))
-                .LeftJoin(AsExp("fk_con", "ref_tbl"), "ref_tbl.oid", "fk_con.confrelid")
+                // FIX: was AsExp("fk_con", "ref_tbl"); must be the pg_class table
+                .LeftJoin(AsExp("pg_class", "ref_tbl"), "ref_tbl.oid", "fk_con.confrelid")
                 .LeftJoin(AsExp("pg_attribute", "ref_col"),
                     ConstantExpCol("ref_col.attrelid") == ConstantExpCol("fk_con.confrelid")
                     & ConstantExpCol("ref_col.attnum") ==
                     ConstantExpCol("fk_con.confkey[array_position(fk_con.conkey, a.attnum)]"))
                 .Where(ConstantExpCol("tb.relname") == tableName &
                        ConstantExpCol("n.nspname") == schemaName)
+                // FIX: required because the SELECT mixes plain columns and aggregates
+                // (adapt to your builder's API)
+                .GroupBy("a.attname", "tb.relname", "n.nspname")
                 .Select(
                     AsExp("tb.relname", "table_name"),
                     AsExp("n.nspname", "schema_name"),
                     AsExp("a.attname", "column_name"),
                     AsExp(StringAggExp(DistinctExp("i.relname"), ", "), "index_names"),
-                    AsExp(BoolOrExp(DistinctExp("ix.indisunique")), "is_unique"),
-                    AsExp(BoolOrExp(DistinctExp("ix.indisprimary")), "is_primary_key"),
+                    // FIX: no DISTINCT inside BOOL_OR
+                    AsExp(BoolOrExp("ix.indisunique"), "is_unique"),
+                    AsExp(BoolOrExp("ix.indisprimary"), "is_primary_key"),
                     AsExp(StringAggExp(DistinctExp("pk_con.conname"), ", "), "primary_key_constraint_names"),
                     AsExp(StringAggExp(DistinctExp("uq_con.conname"), ", "), "unique_constraint_names"),
                     AsExp(StringAggExp(DistinctExp("fk_con.conname"), ", "), "foreign_key_constraint_names"),
