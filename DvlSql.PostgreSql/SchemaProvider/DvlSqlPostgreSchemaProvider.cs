@@ -1,9 +1,8 @@
 using System.Data;
-using System.Data.Common;
-using System.Runtime.ExceptionServices;
 using DvlSql.Expressions;
 //using static DvlSql.ExpressionHelpers;
 using static DvlSql.PgExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.PostgreSql;
 

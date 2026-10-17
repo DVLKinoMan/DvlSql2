@@ -28,7 +28,7 @@ public partial class DvlPostgreSql : IDvlSql
     
     public ISelector From(string tableName, bool withNoLock = false)
     {
-        var fromExpression = FromExp(tableName, withNoLock: withNoLock);
+        var fromExpression = FromExp(tableName);
 
         return new SqlSelector(fromExpression, GetConnection());
     }

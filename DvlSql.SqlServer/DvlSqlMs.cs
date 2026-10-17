@@ -1,5 +1,6 @@
 ﻿using DvlSql.Expressions;
 using Microsoft.Extensions.Logging;
+using static DvlSql.MsExpressionHelpers;
 using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer;
@@ -43,7 +44,7 @@ public partial class DvlSqlMs : IDvlSql
 
     public IDeletable DeleteFrom(string tableName)
     {
-        var fromExpression = FromExp(tableName);
+        var fromExpression = ExpressionHelpers.FromExp(tableName);
 
         return new SqlDeletable(fromExpression, GetConnection());
     }

@@ -1,6 +1,7 @@
 ﻿using System.Exts;
 using System.Text;
 using DvlSql.Expressions;
+using static DvlSql.MsExpressionHelpers;
 using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.SqlServer;

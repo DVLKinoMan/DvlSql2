@@ -2,6 +2,7 @@
 using System.Text;
 using DvlSql.Expressions;
 using static DvlSql.ExpressionHelpers;
+using static DvlSql.PgExpressionHelpers;
 
 namespace DvlSql.PostgreSql;
 
@@ -41,7 +42,7 @@ internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
 
     public ISelector From(string tableName, bool withNoLock = false)
     {
-        _unionExpression.Add(FullSelectExp(SelectExp(), FromExp(tableName, withNoLock: withNoLock)));
+        _unionExpression.Add(FullSelectExp(SelectExp(), FromExp(tableName)));
 
         return this;
     }

@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using System.Exts;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using DvlSql.Expressions;
-using static System.Exts.Extensions;
 
 // ReSharper disable once CheckNamespace
 namespace DvlSql;
@@ -9,7 +9,6 @@ namespace DvlSql;
 public static class ExpressionHelpers
 {
     public static string AvgExp(string param) => $"AVG({param})";
-    public static string CountExp(string param = "*") => $"COUNT({param})";
     public static string MaxExp(string param) => $"MAX({param})";
     public static string MinExp(string param) => $"MIN({param})";
     public static string SumExp(string param) => $"SUM({param})";
@@ -17,32 +16,16 @@ public static class ExpressionHelpers
 
     public static string AsExp(string field, string @as) =>
         @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
+    public static string CountExp(string param = "*") => $"COUNT({param})";
     
-    public static string BoolOrExp(string field) => $"BOOL_OR({field})";
-    
-    public static string StringAggExp(string field, string seperator) => $"STRING_AGG({field}, '{seperator}')";
-    
-    public static string AnyExp(string param) => $"Any({param})";
-
     public static string CoalesceExp<T>(string param, T change) =>
         typeof(T) == typeof(string) || typeof(T) == typeof(Guid) || typeof(T) == typeof(Guid?)
         || typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?)
             ? $"COALESCE({param}, '{(change is DateTime dt ? dt.ToString(CultureInfo.InvariantCulture) : change!.ToString())}')"
             : $"COALESCE({param}, {change})";
-
+    
     public static DvlSqlAsExpression AsExp(string @as, IEnumerable<string>? @params = null, bool useAs = true) =>
         new(@as, @params, useAs);
-
-    public static string MonthExp(string param) => $"MONTH({param})";
-    public static string DayExp(string param) => $"DAY({param})";
-    public static string YearExp(string param) => $"YEAR({param})";
-    public static string GetDateExp() => $"GETDATE()";
-    public static string IsNullExp(string param1, string param2) => $"ISNULL({param1}, {param2})";
-
-    public static string DateDiffExp(string interval, string starting, string ending) =>
-        $"DATEDIFF({interval}, {starting}, {ending})";
-
-    public static string ConvertExp(string type, string name) => $"CONVERT({type}, {name})";
 
     public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
         (new DvlSqlWhereExpression(innerExpression)
@@ -66,7 +49,7 @@ public static class ExpressionHelpers
     public static DvlSqlConstantColumnExpression ConstantExpCol(string columnName) => new(columnName);
 
     public static DvlSqlMemberExpressionString MemberExpString(string memberName) => new(memberName);
-    
+
     public static DvlSqlMemberExpressionGuid MemberExpGuid(string memberName) => new(memberName);
 
     public static DvlSqlMemberExpressionInt MemberExpInt(string memberName) => new(memberName);
@@ -89,26 +72,19 @@ public static class ExpressionHelpers
             _ when typeof(TValue) == typeof(string) => (MemberExpString(memberName) as DvlSqlMemberExpression<TValue>)!,
             _ when typeof(TValue) == typeof(int) => (MemberExpInt(memberName) as DvlSqlMemberExpression<TValue>)!,
             _ when typeof(TValue) == typeof(Guid) => (MemberExpGuid(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(int?) => (MemberExpInt(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(double) => (MemberExpDouble(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(double?) => (MemberExpDouble(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(long) => (MemberExpLong(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(long?) => (MemberExpLong(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(bool) => (MemberExpBool(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(bool?) => (MemberExpBool(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(byte) => (MemberExpByte(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(byte?) => (MemberExpByte(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(decimal) =>
                 (MemberExpDecimal(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(decimal?) => (MemberExpDecimal(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ when typeof(TValue) == typeof(DateTime) =>
                 (MemberExpDateTime(memberName) as DvlSqlMemberExpression<TValue>)!,
-            // _ when typeof(TValue) == typeof(DateTime?) => (MemberExpDateTime(memberName) as DvlSqlMemberExpression<TValue?>)!,
             _ => throw new NotImplementedException($"Type: {typeof(TValue)} was not implemented")
         };
 
     public static DvlSqlGroupByMemberExpressionString GroupByMemberExpString(string memberName) => new(memberName);
-    
+
     public static DvlSqlGroupByMemberExpressionGuid GroupByMemberExpGuid(string memberName) => new(memberName);
 
     public static DvlSqlGroupByMemberExpressionInt GroupByMemberExpInt(string memberName) => new(memberName);
@@ -131,6 +107,8 @@ public static class ExpressionHelpers
     public static DvlSqlInExpression InExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
         new(parameterName, innerExpressions);
 
+    // NOTE: topNum must be rendered as "LIMIT n" (after ORDER BY) by DvlSqlSelectExpression /
+    // DvlSqlFullSelectExpression in the PostgreSQL provider, not as "TOP n".
     public static DvlSqlSelectExpression SelectExp(int? topNum = null) =>
         new(topNum);
 
@@ -141,14 +119,6 @@ public static class ExpressionHelpers
     public static DvlSqlSelectExpression SelectExp(IEnumerable<string> paramNames,
         int? topNum = null) =>
         new(paramNames.ToList(), topNum);
-
-    public static DvlSqlFromWithTableExpression FromExp(string tableName, string? @as = null, bool withNoLock = false)
-    {
-        var from = new DvlSqlFromWithTableExpression(tableName, withNoLock);
-        if (@as is not null)
-            from.As = AsExp(@as);
-        return from;
-    }
 
     public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string? @as = null)
     {
@@ -162,6 +132,14 @@ public static class ExpressionHelpers
         if (@as != null)
             fromWithTable.As = AsExp(@as);
         return fromWithTable;
+    } 
+    
+    public static DvlSqlFromWithTableExpression FromExp(string tableName, string? @as = null, bool withNoLock = false)
+    {
+        var from = new DvlSqlFromWithTableExpression(tableName, withNoLock);
+        if (@as is not null)
+            from.As = AsExp(@as);
+        return from;
     }
 
     public static DvlSqlFromExpression ValuesExp<T>(T[] values, DvlSqlAsExpression @as) where T : ITuple =>
@@ -212,15 +190,19 @@ public static class ExpressionHelpers
     public static DvlSqlExistsExpression ExistsExp(DvlSqlFullSelectExpression select) =>
         new(select);
 
+    // OFFSET n ROWS FETCH NEXT m ROWS ONLY is valid in PostgreSQL 13+ as well
     public static DvlSqlSkipExpression SkipExp(int offsetRows, int? fetchNextRows = null) =>
         new(offsetRows, fetchNextRows);
 
     public static DvlSqlGroupByExpression GroupByExp(params string[] paramNames) =>
         new(paramNames);
 
+    // NOTE: PostgreSQL has no table variables (DECLARE @t TABLE). The provider must render
+    // this as a temp table or CTE.
     public static DvlSqlTableDeclarationExpression DeclareTableExp(string name) =>
         new(name);
 
+    // NOTE: PostgreSQL uses "RETURNING col" (no INSERTED./DELETED. prefixes, no INTO @table).
     public static DvlSqlOutputExpression
         OutputExp(DvlSqlTableDeclarationExpression intoTable, params string[] cols) =>
         new(intoTable, cols);
@@ -342,7 +324,7 @@ public static class ExpressionHelpers
     public static DvlSqlCountExpressionString CountAllExpString() => new("*");
 
     public static DvlSqlCountExpressionString CountExpString(string memberName) => new(memberName);
-    
+
     public static DvlSqlCountExpressionGuid CountExpGuid(string memberName) => new(memberName);
 
     public static DvlSqlCountExpressionInt CountExpInt(string memberName) => new(memberName);

@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using NUnit.Framework;
 using static DvlSql.ExpressionHelpers;
+using static DvlSql.MsExpressionHelpers;
 
 namespace DvlSql.SqlServer.Tests.Select;
 
