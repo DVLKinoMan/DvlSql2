@@ -81,7 +81,7 @@ partial class DvlPostgreSql
                        ConstantExpCol("t.table_type") == "BASE TABLE" &
                        NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
-                    "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
+                    "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable", "c.column_default")
                 .ToListAsync(row =>
                     (SchemaName: row["table_schema"].ToString()!,
                         TableName: row["table_name"].ToString()!,
@@ -98,9 +98,9 @@ partial class DvlPostgreSql
                                 ? null
                                 : row.GetByte(row.GetOrdinal("numeric_scale")),
                             IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
-                            // DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
-                            //     ? null
-                            //     : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
+                            DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
+                                ? null
+                                : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!),
                         })
                 );
 
@@ -289,7 +289,7 @@ partial class DvlPostgreSql
                        ConstantExpCol("t.table_name") == tableName &
                        NotInExp("t.table_schema", "\'pg_catalog\'", "\'information_schema\'"))
                 .Select("t.table_schema", "t.table_name", "c.column_name", "c.data_type",
-                    "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable")
+                    "c.character_maximum_length", "c.numeric_precision", "c.numeric_scale", "c.is_nullable", "c.column_default")
                 .ToListAsync(row =>
                     (SchemaName: row["table_schema"].ToString()!,
                         TableName: row["table_name"].ToString()!,
@@ -306,6 +306,9 @@ partial class DvlPostgreSql
                                 ? null
                                 : row.GetByte(row.GetOrdinal("numeric_scale")),
                             IsNull = row.GetString(row.GetOrdinal("is_nullable")) == "YES",
+                             DefaultExpression = row.IsDBNull(row.GetOrdinal("column_default"))
+                                ? null
+                                : new("___", row["column_default"].ToString()!, row["column_name"].ToString()!)
                         })
                 );
 
